@@ -4,8 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "*.html"
-      - "assets/**"
+      - "src/**"
       - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
@@ -31,15 +30,15 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # Uploads ONLY site files. The include-list (and excluding "*" first)
-      # means terraform/, .github/, .git/, README.md etc. are never synced.
+      # src/ is the web root. Sync its HTML to the bucket root; terraform/,
+      # .github/, .git/, README and *.md all live outside src/, so they never
+      # ship. aws s3 sync infers Content-Type from the extension (text/html).
       - name: Sync site to S3
         run: |
-          aws s3 sync . "s3://${{ secrets.S3_BUCKET }}" \
+          aws s3 sync src/ "s3://${{ secrets.S3_BUCKET }}" \
             --delete \
             --exclude "*" \
             --include "*.html" \
-            --include "assets/*" \
             --cache-control "public, max-age=300, must-revalidate"
 
       - name: Invalidate CloudFront cache

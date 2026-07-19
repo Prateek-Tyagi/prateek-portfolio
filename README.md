@@ -1,16 +1,23 @@
 # prateek-portfolio
 
-My personal site — a single self-contained `index.html` (no build step, no framework, zero image assets) — plus the Terraform that ships it. The site claims to be infrastructure-as-code, so it is: S3 + CloudFront + ACM + Route 53, deployed by GitHub Actions over OIDC with **no long-lived AWS keys**.
+My personal site — a single self-contained `src/index.html` (no build step, no framework, zero image assets) — plus the Terraform that ships it. The site claims to be infrastructure-as-code, so it is: S3 + CloudFront + ACM + Route 53, deployed by GitHub Actions over OIDC with **no long-lived AWS keys**.
 
 ```
 .
-├── index.html                    # the whole site (HTML + CSS + JS inline)
-├── .github/workflows/deploy.yml  # OIDC deploy: sync to S3 + invalidate CloudFront
+├── src/                          # the web root (everything under here is deployed)
+│   ├── index.html                # the whole site (HTML + CSS + JS inline)
+│   └── cv.html                   # web CV (A4 sheet, matches the site theme)
+├── .github/workflows/deploy.yml  # OIDC deploy: sync src/ to S3 + invalidate CloudFront
 └── terraform/
     ├── bootstrap/                # one-time: creates the S3 remote-state bucket
     ├── functions/                # CloudFront Functions (301 redirects)
     └── *.tf                      # the stack
 ```
+
+## CV
+
+- `src/cv.html` is the **web CV**, served at the site root: `/cv.html`.
+- There is no separate PDF file. The **Download PDF** button calls `window.print()`, so the browser's print dialog handles printing or **Save as PDF** on demand — nothing to keep in sync.
 
 ## What it provisions
 
