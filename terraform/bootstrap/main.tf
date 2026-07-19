@@ -29,8 +29,8 @@ variable "region" {
 }
 
 variable "state_bucket_name" {
-  type    = string
-  default = "prateek-portfolio-tfstate-670484893072"
+  description = "Globally-unique S3 bucket name for remote state. Set in bootstrap/terraform.tfvars (gitignored) or pass with -var. Convention: prateek-portfolio-tfstate-<ACCOUNT_ID>."
+  type        = string
 }
 
 resource "aws_s3_bucket" "state" {
