@@ -6,7 +6,8 @@ My personal site — a single self-contained `src/index.html` (no build step, no
 .
 ├── src/                          # the web root (everything under here is deployed)
 │   ├── index.html                # the whole site (HTML + CSS + JS inline)
-│   └── cv.html                   # web CV (A4 sheet, matches the site theme)
+│   ├── cv.html                   # web CV (A4 sheet, matches the site theme)
+│   └── cv.pdf                    # downloadable PDF (linked from Download PDF)
 ├── .github/workflows/deploy.yml  # OIDC deploy: sync src/ to S3 + invalidate CloudFront
 └── terraform/
     ├── bootstrap/                # one-time: creates the S3 remote-state bucket
@@ -16,8 +17,17 @@ My personal site — a single self-contained `src/index.html` (no build step, no
 
 ## CV
 
-- `src/cv.html` is the **web CV**, served at the site root: `/cv.html`.
-- There is no separate PDF file. The **Download PDF** button calls `window.print()`, so the browser's print dialog handles printing or **Save as PDF** on demand — nothing to keep in sync.
+- `src/cv.html` is the **web CV** (`/cv.html`); `src/cv.pdf` is the **downloadable copy** (`/cv.pdf`).
+- The **Download PDF** button links to `cv.pdf` (same pattern as [Joseph Coleman's CV](https://j.oseph.co.uk/cv.html)).
+- Regenerate the PDF after CV edits (keep `cv.html` and `cv.pdf` in sync):
+
+```bash
+python3 -m http.server 8765 --directory src &
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless=new --disable-gpu --no-pdf-header-footer \
+  --print-to-pdf="$PWD/src/cv.pdf" \
+  "http://127.0.0.1:8765/cv.html"
+```
 
 ## What it provisions
 

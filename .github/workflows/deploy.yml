@@ -30,15 +30,16 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # src/ is the web root. Sync its HTML to the bucket root; terraform/,
+      # src/ is the web root. Sync HTML + PDF to the bucket root; terraform/,
       # .github/, .git/, README and *.md all live outside src/, so they never
-      # ship. aws s3 sync infers Content-Type from the extension (text/html).
+      # ship. aws s3 sync infers Content-Type (text/html, application/pdf).
       - name: Sync site to S3
         run: |
           aws s3 sync src/ "s3://${{ secrets.S3_BUCKET }}" \
             --delete \
             --exclude "*" \
             --include "*.html" \
+            --include "*.pdf" \
             --cache-control "public, max-age=300, must-revalidate"
 
       - name: Invalidate CloudFront cache
