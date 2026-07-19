@@ -1,461 +1,1439 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prateek Rajvats — Platform & Reliability Engineer</title>
-<meta name="description" content="Platform & Reliability Engineer. Observability, reliability, and compliance-as-code on multi-account AWS. Terraform, ECS Fargate, Datadog, OpenTelemetry.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --accent:#0d766c;
-    --accent-deep:#0a5951;
-    --tint:#e4f1ef;
-    --amber:#d98a1f;
-    --hot:#d6402a;
-    --ink:#14201f;
-    --muted:#5c6a6b;
-    --rule:#e2e8e6;
-    --bg:#ffffff;
-    --bg-alt:#f4f7f6;
-    --nav-h:64px;
-    --disp:'Sora',system-ui,sans-serif;
-    --body:'Inter',system-ui,sans-serif;
-    --mono:'JetBrains Mono',ui-monospace,monospace;
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 12px)}
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-  body{margin:0;font-family:var(--body);color:var(--ink);line-height:1.6;background:var(--bg);-webkit-font-smoothing:antialiased}
-  a{color:var(--accent-deep)}
-
-  /* ---- nav ---- */
-  .site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);display:flex;align-items:center;
-    background:rgba(255,255,255,.86);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);
-    border-bottom:1px solid var(--rule);z-index:100}
-  .nav-inner{width:100%;max-width:1040px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-  .nav-brand{font-family:var(--mono);font-weight:600;font-size:15px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:9px}
-  .nav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(13,118,108,.5);animation:navpulse 2.4s ease-out infinite}
-  @keyframes navpulse{0%{box-shadow:0 0 0 0 rgba(13,118,108,.5)}70%{box-shadow:0 0 0 6px rgba(13,118,108,0)}100%{box-shadow:0 0 0 0 rgba(13,118,108,0)}}
-  @media (prefers-reduced-motion:reduce){.nav-brand .dot{animation:none}}
-  .nav-brand span{color:var(--muted)}
-  .nav-links{display:flex;align-items:center;gap:24px;list-style:none;margin:0;padding:0}
-  .nav-link{text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;padding:6px 0;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
-  .nav-link:hover{color:var(--ink)}
-  .nav-link.cta{color:var(--accent-deep);border:1px solid var(--accent);border-radius:6px;padding:6px 12px}
-  .nav-link.cta:hover{background:var(--tint)}
-  .nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px}
-  .nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:4px 0;transition:.2s}
-
-  /* ---- layout ---- */
-  .section{padding:76px 0}
-  .section-alt{background:var(--bg-alt)}
-  .container{max-width:1040px;margin:0 auto;padding:0 24px}
-  .kicker{font-family:var(--mono);text-transform:uppercase;letter-spacing:.16em;font-size:12px;font-weight:600;color:var(--accent);margin:0 0 10px}
-  .section h2{font-family:var(--disp);font-size:clamp(24px,3.4vw,30px);font-weight:700;margin:0 0 28px;letter-spacing:-.01em}
-
-  /* ---- hero ---- */
-  .hero{--level:.34;position:relative;z-index:0;min-height:calc(100vh - var(--nav-h));display:flex;flex-direction:column;
-    justify-content:center;align-items:center;text-align:center;padding:calc(var(--nav-h) + 40px) 24px 128px;
-    border-bottom:1px solid var(--rule);overflow:hidden;transition:background .45s ease;
-    background:radial-gradient(85% 120% at 50% -15%,rgba(13,118,108,calc(.05 + var(--level)*.26)),transparent 65%),linear-gradient(180deg,#fbfdfd,var(--bg))}
-  .hero-inner{max-width:780px;width:100%;position:relative}
-  .hero .eyebrow{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:0 0 16px;letter-spacing:.02em;display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:center}
-  .hero .eyebrow .live{width:8px;height:8px;border-radius:50%;background:var(--accent);position:relative}
-  .hero .eyebrow .live::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--accent);animation:ring 2s ease-out infinite}
-  @keyframes ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(3);opacity:0}}
-  @media (prefers-reduced-motion:reduce){.hero .eyebrow .live::after{animation:none}}
-  .hero h1{font-family:var(--disp);font-size:clamp(40px,6vw,58px);line-height:1.04;font-weight:700;letter-spacing:-.02em;margin:0 0 8px}
-  .hero .role{font-family:var(--disp);font-size:20px;font-weight:600;color:var(--accent-deep);margin:0 0 22px}
-  .hero .pitch{font-size:calc(17px + var(--level)*3px);line-height:1.5;color:#2b3a38;max-width:660px;margin:0 auto 24px;transition:color .4s,font-size .4s;min-height:3.2em}
-  .hero-cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;position:relative;z-index:10}
-
-  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-size:14px;font-weight:600;text-decoration:none;
-    padding:12px 20px;border-radius:8px;border:1px solid transparent;transition:background .15s,transform .15s,border-color .15s}
-  .btn:hover{transform:translateY(-1px)}
-  .btn-primary{background:var(--accent);color:#fff}
-  .btn-primary:hover{background:var(--accent-deep)}
-  .btn-ghost{background:#fff;color:var(--accent-deep);border-color:var(--rule)}
-  .btn-ghost:hover{border-color:var(--accent)}
-
-  /* proof stats */
-  .proof{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;margin-top:30px;position:relative;z-index:10}
-  .proof .p{font-family:var(--mono);font-size:12.5px;color:var(--muted);display:inline-flex;align-items:center;gap:8px}
-  .proof .p b{color:var(--accent-deep);font-weight:600}
-  .proof .p::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent)}
-
-  /* ---- severity slider (signature) ---- */
-  .tone-bar{position:absolute;left:0;right:0;bottom:26px;padding:0 28px;z-index:20}
-  .tone-read{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--muted);margin-bottom:9px;display:flex;justify-content:center;gap:9px;align-items:center}
-  .tone-read .sev{color:var(--accent);font-weight:600}
-  .tone-read .sev .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor;margin-right:6px;vertical-align:middle}
-  .tone-bar input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;margin:0}
-  .tone-labels{display:flex;justify-content:space-between;margin-top:8px;font-size:12.5px;font-family:var(--mono)}
-  .tone-labels span{font-style:italic;color:var(--muted)}
-
-  /* escalation states */
-  .hero[data-sev="2"] .pitch{color:var(--amber);font-weight:500}
-  .hero[data-sev="3"] .pitch{color:var(--hot);font-weight:600}
-  .hero[data-sev="2"]{background:radial-gradient(90% 125% at 50% -12%,rgba(217,138,31,.16),transparent 62%),linear-gradient(180deg,#fffaf1,var(--bg))}
-  .hero[data-sev="2"] .tone-read .sev{color:var(--amber)}
-  .hero[data-sev="3"] .tone-read .sev{color:var(--hot)}
-  @keyframes pitchIn{from{opacity:0;transform:translateY(calc(6px + var(--level)*14px))}to{opacity:1;transform:none}}
-  .pitch.animate{animation:pitchIn .4s cubic-bezier(.2,.7,.2,1)}
-  @keyframes hypePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.015)}}
-  .hero[data-sev="3"] h1{animation:hypePulse 1.7s ease-in-out infinite}
-  @media (prefers-reduced-motion:reduce){.pitch.animate,.hero[data-sev="3"] h1{animation:none}}
-
-  /* ---- flying props (all CSS-drawn, no images) ---- */
-  .stage{position:absolute;inset:var(--nav-h) 0 0 0;overflow:hidden;pointer-events:none;z-index:3}
-  .prop{position:absolute;opacity:0;visibility:hidden}
-  .prop.in{opacity:1;visibility:visible}
-  .prop.in.fx-left{animation:inLeft .55s cubic-bezier(.2,.8,.2,1) both}
-  .prop.in.fx-right{animation:inRight .55s cubic-bezier(.2,.8,.2,1) both}
-  .prop.in.fx-pop{animation:pop .5s cubic-bezier(.2,1.5,.4,1) both}
-  @keyframes inLeft{from{opacity:0;transform:translateX(-170%) rotate(-5deg)}to{opacity:1;transform:none}}
-  @keyframes inRight{from{opacity:0;transform:translateX(170%) rotate(5deg)}to{opacity:1;transform:none}}
-  @keyframes pop{0%{opacity:0;transform:scale(.2) rotate(-12deg)}70%{transform:scale(1.08) rotate(3deg)}100%{opacity:1;transform:scale(1) rotate(-2deg)}}
-  @media (prefers-reduced-motion:reduce){.prop.in{animation:none!important}}
-
-  .pos-tl{top:12%;left:4%}.pos-tr{top:10%;right:4%}
-  .pos-mr{top:38%;right:3%}
-  .pos-bl{bottom:20%;left:4%}.pos-br{bottom:22%;right:5%}
-
-  /* alert card prop */
-  .alert-card{width:clamp(200px,17vw,238px);background:#fff;border:1px solid var(--rule);border-left:4px solid var(--amber);
-    border-radius:10px;padding:12px 14px;box-shadow:0 10px 30px rgba(20,32,30,.14);text-align:left}
-  .alert-card.hot{border-left-color:var(--hot)}
-  .alert-card .top{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px}
-  .alert-card .top b{color:var(--hot)}
-  .alert-card .title{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink)}
-  .alert-card .spark{margin-top:8px;height:22px;width:100%;display:block}
-
-  /* starburst badge prop */
-  .badge{width:clamp(112px,11vw,140px);aspect-ratio:1;display:grid;place-items:center;text-align:center;padding:20px;
-    font-family:var(--disp);text-transform:uppercase;font-weight:700;font-size:clamp(10px,1vw,12px);line-height:1.12;color:#fff;background:var(--accent);
-    clip-path:polygon(50% 0,61% 12%,77% 7%,79% 24%,95% 27%,88% 42%,100% 53%,86% 62%,93% 79%,76% 78%,69% 94%,55% 84%,41% 96%,33% 80%,16% 83%,20% 66%,5% 58%,17% 45%,7% 29%,24% 28%,25% 11%,41% 16%)}
-  .badge.amber{background:var(--amber);color:#1c1405}
-  .prop.idle .badge{animation:wiggle 3.6s ease-in-out infinite}
-  @keyframes wiggle{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
-  @media (prefers-reduced-motion:reduce){.prop.idle .badge{animation:none}}
-
-  /* speech bubble prop */
-  .bubble{position:relative;background:var(--ink);color:#fff;font-family:var(--disp);font-weight:600;font-size:clamp(14px,1.5vw,18px);
-    padding:12px 18px;border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.16);white-space:nowrap}
-  .bubble::after{content:"";position:absolute;left:26px;bottom:-10px;border:10px solid transparent;border-top-color:var(--ink)}
-
-  /* finale takeover (above the slider) */
-  .finale{position:absolute;left:0;right:0;top:var(--nav-h);bottom:92px;z-index:50;display:grid;place-items:center;align-content:center;gap:10px;
-    text-align:center;background:var(--hot);pointer-events:none;opacity:0;visibility:hidden;padding:20px}
-  .finale.in{opacity:1;visibility:visible;pointer-events:auto;animation:finalePulse 1.9s ease-in-out infinite}
-  @keyframes finalePulse{0%,100%{background:var(--hot)}50%{background:#c53a26}}
-  .finale .tagsev{font-family:var(--mono);font-size:clamp(12px,2vw,15px);letter-spacing:.22em;color:#fff;opacity:.9}
-  .finale .msg{font-family:var(--disp);font-weight:700;color:#fff;line-height:.94;letter-spacing:-.02em;font-size:clamp(52px,12vw,148px);animation:finaleText 1.9s ease-in-out infinite}
-  @keyframes finaleText{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
-  .finale .contact{font-family:var(--mono);font-size:clamp(15px,3vw,26px);font-weight:600}
-  .finale .contact a{color:#14201f;text-decoration:none}
-  .finale .ack{margin-top:6px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#fff;opacity:.85}
-  @media (prefers-reduced-motion:reduce){.finale.in,.finale .msg{animation:none}}
-
-  /* hide flying-prop clutter on narrow screens; slider + finale still work */
-  @media (max-width:1200px){.hero .stage{display:none}}
-
-  /* ---- experience ---- */
-  .exp-item{display:grid;grid-template-columns:210px 1fr;gap:24px;padding:24px 0;border-top:1px solid var(--rule)}
-  .exp-item:first-of-type{border-top:0}
-  .exp-when{font-family:var(--mono);color:var(--accent);font-size:13px;font-weight:500}
-  .exp-where{font-family:var(--mono);color:var(--muted);font-size:12px;margin-top:6px}
-  .exp-role{font-family:var(--disp);font-weight:600;font-size:18px;margin:0 0 2px}
-  .exp-co{color:var(--accent-deep);font-weight:600;margin:0 0 10px}
-  .exp-item ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
-  .exp-item li{color:#36444c;padding-left:18px;position:relative}
-  .exp-item li::before{content:"›";position:absolute;left:0;color:var(--accent);font-weight:700}
-  .exp-item li b{color:var(--ink);font-weight:600}
-
-  /* ---- highlight cards ---- */
-  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-  .card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:22px 22px 20px;transition:border-color .15s,box-shadow .15s,transform .15s}
-  .card:hover{border-color:var(--accent);box-shadow:0 8px 26px rgba(20,40,50,.08);transform:translateY(-2px)}
-  .card .stat{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent-deep);background:var(--tint);border-radius:999px;padding:4px 11px;margin-bottom:12px;letter-spacing:.02em}
-  .card h3{font-family:var(--disp);margin:0 0 8px;font-size:17px;font-weight:600}
-  .card p{margin:0;color:#36444c;font-size:15px}
-  .card .stackrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
-  .card .stackrow span{font-family:var(--mono);font-size:11px;color:var(--muted);border:1px solid var(--rule);border-radius:6px;padding:3px 8px}
-
-  /* ---- skills ---- */
-  .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 40px}
-  .skill-group h3{font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px;font-size:12px;color:var(--accent-deep)}
-  .skill-group p{margin:0;color:#36444c}
-
-  /* ---- contact ---- */
-  .contact-links{display:flex;flex-wrap:wrap;gap:14px 28px;font-family:var(--mono);font-size:15px}
-  .contact-links a,.contact-links span{color:var(--ink);text-decoration:none}
-  .contact-links a:hover{color:var(--accent-deep)}
-
-  /* ---- footer ---- */
-  .site-footer{border-top:1px solid var(--rule);padding:26px 0;color:var(--muted);font-family:var(--mono);font-size:12.5px}
-
-  a:focus-visible,.btn:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
-
-  @media (max-width:720px){
-    .nav-toggle{display:block}
-    .nav-links{position:fixed;top:var(--nav-h);left:0;right:0;flex-direction:column;align-items:flex-start;gap:0;background:#fff;border-bottom:1px solid var(--rule);padding:8px 24px 16px;transform:translateY(-140%);transition:transform .25s}
-    .nav-open .nav-links{transform:translateY(0)}
-    .nav-links li{width:100%}
-    .nav-link{display:block;width:100%;padding:12px 0}
-    .nav-link.cta{border:0;padding:12px 0}
-    .exp-item{grid-template-columns:1fr;gap:8px}
-    .cards,.skills-grid{grid-template-columns:1fr}
-  }
-</style>
-</head>
-<body>
-
-<nav class="site-nav">
-  <div class="nav-inner">
-    <a href="#top" class="nav-brand"><span class="dot"></span>prateek.rajvats<span> / platform·sre</span></a>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
-    <ul class="nav-links">
-      <li><a class="nav-link" href="#about">About</a></li>
-      <li><a class="nav-link" href="#experience">Experience</a></li>
-      <li><a class="nav-link" href="#work">Work</a></li>
-      <li><a class="nav-link" href="#skills">Skills</a></li>
-      <li><a class="nav-link" href="cv.html">CV</a></li>
-      <li><a class="nav-link cta" href="#contact">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-
-<main id="top">
-  <!-- HERO -->
-  <header class="hero" data-sev="1">
-    <div class="stage" aria-hidden="true">
-      <div class="prop pos-tl fx-left" data-min="2">
-        <div class="alert-card">
-          <div class="top"><span>◉ MONITOR</span><span>SEV-2</span></div>
-          <div class="title">candidate.availability</div>
-          <svg class="spark" viewBox="0 0 200 22" preserveAspectRatio="none"><polyline fill="none" stroke="var(--amber)" stroke-width="1.6" points="0,16 20,14 40,17 60,10 80,13 100,7 120,11 140,5 160,8 180,3 200,4"/></svg>
-        </div>
-      </div>
-      <div class="prop pos-tr fx-right idle" data-min="2"><div class="badge">Open<br>to work</div></div>
-      <div class="prop pos-mr fx-right" data-min="2"><div class="bubble">let's talk?</div></div>
-      <div class="prop pos-bl fx-left" data-min="3">
-        <div class="alert-card hot">
-          <div class="top"><span>◉ ALERT</span><b>SEV-1</b></div>
-          <div class="title">hiring.manager — PAGE</div>
-        </div>
-      </div>
-      <div class="prop pos-br fx-pop idle" data-min="3"><div class="badge amber">99.9%<br>reply SLA</div></div>
-    </div>
-
-    <div class="finale" aria-hidden="true">
-      <div class="tagsev">SEV-1 · INCIDENT DECLARED</div>
-      <div class="msg">PAGE ME</div>
-      <div class="contact"><a href="mailto:parteekrajvats@gmail.com">parteekrajvats@gmail.com</a></div>
-      <div class="ack">drag back to acknowledge</div>
-    </div>
-
-    <div class="hero-inner">
-      <p class="eyebrow"><span class="live"></span>Gurugram, IN&nbsp; ·&nbsp; open to senior SRE / platform roles&nbsp; ·&nbsp; UK &amp; remote, sponsorship</p>
-      <h1>Prateek Rajvats</h1>
-      <p class="role">Platform &amp; Reliability Engineer</p>
-      <p class="pitch" id="pitch">I run the observability and reliability platform for 30+ engineering teams across a multi-account AWS org — turning compliance-critical infrastructure into paved roads that are safe by default.</p>
-      <div class="hero-cta">
-        <a href="#work" class="btn btn-primary">See the work →</a>
-        <a href="#contact" class="btn btn-ghost">Get in touch</a>
-      </div>
-      <div class="proof">
-        <span class="p"><b>6+ yrs</b> platform / devops</span>
-        <span class="p"><b>30+ teams</b> on the platform</span>
-        <span class="p"><b>0</b> long-lived CI keys</span>
-        <span class="p"><b>SOC2 / CIS</b> as code</span>
-      </div>
-    </div>
-
-    <div class="tone-bar">
-      <div class="tone-read">severity <span class="sev" id="sevread"><span class="d"></span>SEV-3 · ELEVATED</span></div>
-      <input type="range" id="tone" min="0" max="100" value="34" aria-label="How hard should I sell? Drag to escalate.">
-      <div class="tone-labels"><span>keep it calm</span><span>page the hiring manager</span></div>
-    </div>
-  </header>
-
-  <!-- ABOUT -->
-  <section class="section" id="about">
-    <div class="container">
-      <p class="kicker">About</p>
-      <h2>Platforms as code, reliability as a habit</h2>
-      <p style="max-width:70ch;color:#36444c;font-size:17px">Platform engineer with 6+ years across DevOps and platform work, now leading observability and reliability at Safeguard Global for 30+ internal teams on a multi-account AWS organisation that runs payroll and workforce systems under SOC2 and CIS compliance. My work is the boring-in-a-good-way kind: self-service access without long-lived keys, monitors defined as code, supply-chain provenance checked before anything ships, and incidents that page the right team instead of everyone. I care about giving other engineers paved roads — and about the day the auditors show up going quietly.</p>
-    </div>
-  </section>
-
-  <!-- EXPERIENCE -->
-  <section class="section section-alt" id="experience">
-    <div class="container">
-      <p class="kicker">Experience</p>
-      <h2>Where I've worked</h2>
-
-      <div class="exp-item">
-        <div>
-          <div class="exp-when">2023 — Present</div>
-          <div class="exp-where">Gurugram, IN · remote</div>
-        </div>
-        <div>
-          <div class="exp-role">Senior Platform Engineer</div>
-          <div class="exp-co">Safeguard Global</div>
-          <ul>
-            <li>Built a <b>GitOps OIDC role-vending system</b> — teams request scoped cross-account AWS access via PR-driven YAML, provisioned by Terraform, with no long-lived keys.</li>
-            <li>Own the <b>observability layer</b> in Datadog: monitor-as-code for payroll Lambdas and SQS dead-letter queues, plus an OpsGenie → Datadog Incident Management migration.</li>
-            <li>Shipped <b>compliance-as-code</b>: Checkov IaC scanning mapped to SOC2 / CIS controls, and an SBOM governance programme on JFrog Xray with CycloneDX.</li>
-            <li>Designed <b>EventBridge cross-account replication</b> with tested bidirectional loop-prevention, and debugged production incidents across Lambda, Aurora, and DynamoDB.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="exp-item">
-        <div>
-          <div class="exp-when">2020 — 2023</div>
-          <div class="exp-where">India</div>
-        </div>
-        <div>
-          <div class="exp-role">DevOps → Senior DevOps Engineer</div>
-          <div class="exp-co">Solytics Partners</div>
-          <ul>
-            <li>Owned CI/CD, infrastructure automation, and cloud operations for analytics products — the <b>Terraform, AWS, and Python</b> grounding the platform work is built on.</li>
-            <li>Hardened deployment and certificate-renewal processes on legacy stacks and handled cross-team reliability and access management.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HIGHLIGHTS -->
-  <section class="section" id="work">
-    <div class="container">
-      <p class="kicker">Highlights</p>
-      <h2>Selected work</h2>
-      <div class="cards">
-        <div class="card">
-          <span class="stat">0 static keys</span>
-          <h3>Self-service role vending</h3>
-          <p>A PR-driven system for cross-account CI credentials: engineers describe the access they need in YAML, Terraform provisions short-lived OIDC roles, and no static keys ever leave the account. Turned a ticket queue into a merge.</p>
-          <div class="stackrow"><span>Terraform</span><span>AWS IAM</span><span>OIDC</span><span>Bitbucket</span></div>
-        </div>
-        <div class="card">
-          <span class="stat">monitor-as-code</span>
-          <h3>Observability &amp; incident flow</h3>
-          <p>Datadog monitors for payroll Lambdas and SQS DLQs defined as code, plus a roadmap to consolidate paging into Datadog Incident Management — signals that page the right team instead of dashboards nobody reads.</p>
-          <div class="stackrow"><span>Datadog</span><span>OpenTelemetry</span><span>Lambda</span><span>SQS</span></div>
-        </div>
-        <div class="card">
-          <span class="stat">provenance before ship</span>
-          <h3>SBOM governance programme</h3>
-          <p>Software bill-of-materials generation and policy enforcement across build pipelines with JFrog Xray and CycloneDX, wired in as a custom pipeline step so provenance is checked before anything reaches production.</p>
-          <div class="stackrow"><span>JFrog Xray</span><span>CycloneDX</span><span>CI/CD</span></div>
-        </div>
-        <div class="card">
-          <span class="stat">SOC2 / CIS mapped</span>
-          <h3>Compliance-as-code scanning</h3>
-          <p>Checkov-based IaC scanning with findings mapped directly to SOC2 and CIS controls, so security posture is enforced at merge time instead of audited after the fact.</p>
-          <div class="stackrow"><span>Checkov</span><span>Terraform</span><span>SOC2 / CIS</span></div>
-        </div>
-        <div class="card">
-          <span class="stat">loop-safe</span>
-          <h3>Cross-account event replication</h3>
-          <p>An EventBridge architecture replicating events across AWS accounts with tested bidirectional loop-prevention — the connective tissue for a distributed, multi-account platform.</p>
-          <div class="stackrow"><span>EventBridge</span><span>Step Functions</span><span>Multi-account</span></div>
-        </div>
-        <div class="card">
-          <span class="stat">this site</span>
-          <h3>This page, as infrastructure</h3>
-          <p>One self-contained static file — no build step, no framework. Designed to ship on S3 + CloudFront + ACM + Route 53, Terraform-provisioned, deployed by GitHub Actions via OIDC with no long-lived AWS keys. Practising what the day job preaches.</p>
-          <div class="stackrow"><span>Terraform</span><span>S3 / CloudFront</span><span>GitHub OIDC</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section class="section section-alt" id="skills">
-    <div class="container">
-      <p class="kicker">Skills</p>
-      <h2>Tools of the trade</h2>
-      <div class="skills-grid">
-        <div class="skill-group"><h3>Cloud &amp; compute</h3><p>AWS, ECS Fargate, Lambda, Step Functions, EventBridge, SQS</p></div>
-        <div class="skill-group"><h3>Infrastructure as code</h3><p>Terraform, GitOps, Docker, Kubernetes (CKA in progress)</p></div>
-        <div class="skill-group"><h3>Observability</h3><p>Datadog, OpenTelemetry, monitor-as-code, incident management</p></div>
-        <div class="skill-group"><h3>CI/CD</h3><p>Bitbucket Pipelines, GitHub Actions, OIDC-based delivery</p></div>
-        <div class="skill-group"><h3>Languages &amp; scripting</h3><p>Python, Bash, SQL</p></div>
-        <div class="skill-group"><h3>Security &amp; compliance</h3><p>SOC2, CIS, SBOM (JFrog Xray / CycloneDX), cross-account IAM, Lake Formation</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="section" id="contact">
-    <div class="container">
-      <p class="kicker">Contact</p>
-      <h2>Get in touch</h2>
-      <p style="max-width:60ch;color:#36444c;font-size:17px;margin-bottom:22px">Open to senior SRE, platform, and observability roles — UK relocation with sponsorship, or remote. Happy to walk through any of the work above.</p>
-      <div class="contact-links">
-        <a href="mailto:parteekrajvats@gmail.com">parteekrajvats@gmail.com</a>
-        <a href="https://www.linkedin.com/in/prateekrajvats/" target="_blank" rel="noopener">linkedin.com/in/prateekrajvats</a>
-        <a href="https://github.com/Prateek-Tyagi" target="_blank" rel="noopener">github.com/Prateek-Tyagi</a>
-        <span>Gurugram, IN</span>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer class="site-footer">
-  <div class="container">Prateek Rajvats · Platform &amp; Reliability Engineer · one self-contained static page, designed to ship on S3 + CloudFront via Terraform + GitHub OIDC.</div>
-</footer>
-
-<script>
-  // ---- mobile nav ----
-  const toggle=document.querySelector('.nav-toggle'),nav=document.querySelector('.site-nav');
-  toggle.addEventListener('click',()=>{const o=nav.classList.toggle('nav-open');toggle.setAttribute('aria-expanded',o)});
-  document.querySelectorAll('.nav-link').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('nav-open')));
-
-  // ---- severity slider ----
-  const hero=document.querySelector('.hero'),tone=document.getElementById('tone'),
-        pitch=document.getElementById('pitch'),sevread=document.getElementById('sevread'),
-        finale=document.querySelector('.finale'),props=[...document.querySelectorAll('.prop')];
-
-  const COPY=[
-    "I run the observability and reliability platform for 30+ engineering teams across a multi-account AWS org — turning compliance-critical infrastructure into paved roads that are safe by default.",
-    "I turn fragile infrastructure into self-service platforms: instrumented, auditable, and quiet on-call. Teams ship faster because the platform has their back.",
-    "Noisy dashboards? Tired on-call? Audit season looming? That is quite literally my whole job — and I am on the market right now.",
-    ""
-  ];
-  const SEV=[
-    {t:'SEV-4 · ALL NOMINAL',c:'var(--accent)'},
-    {t:'SEV-3 · ELEVATED',c:'var(--accent)'},
-    {t:'SEV-2 · WARNING',c:'var(--amber)'},
-    {t:'SEV-1 · PAGE',c:'var(--hot)'}
-  ];
-
-  let lastSev=-1;
-  function level(v){ if(v<=30)return 0; if(v<=60)return 1; if(v<=85)return 2; return 3; }
-  function apply(){
-    const v=+tone.value, sev=level(v);
-    hero.style.setProperty('--level',(v/100).toFixed(3));
-    hero.dataset.sev=sev;
-    sevread.innerHTML='<span class="d"></span>'+SEV[sev].t;
-    sevread.style.color=SEV[sev].c;
-    finale.classList.toggle('in',sev===3);
-    props.forEach(p=>p.classList.toggle('in', sev>=+p.dataset.min));
-    if(sev!==lastSev){
-      if(sev<3){
-        pitch.textContent=COPY[sev];
-        pitch.classList.remove('animate');void pitch.offsetWidth;pitch.classList.add('animate');
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prateek Rajvats — Platform & Reliability Engineer</title>
+    <meta
+      name="description"
+      content="Platform & Reliability Engineer. Observability, reliability, and compliance-as-code on multi-account AWS. Terraform, ECS Fargate, Datadog, OpenTelemetry."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --accent: #0d766c;
+        --accent-deep: #0a5951;
+        --tint: #e4f1ef;
+        --amber: #d98a1f;
+        --hot: #d6402a;
+        --ink: #14201f;
+        --muted: #5c6a6b;
+        --rule: #e2e8e6;
+        --bg: #ffffff;
+        --bg-alt: #f4f7f6;
+        --nav-h: 64px;
+        --disp: "Sora", system-ui, sans-serif;
+        --body: "Inter", system-ui, sans-serif;
+        --mono: "JetBrains Mono", ui-monospace, monospace;
       }
-      lastSev=sev;
-    }
-  }
-  tone.addEventListener('input',apply);
-  apply();
-</script>
-</body>
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: calc(var(--nav-h) + 12px);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+      body {
+        margin: 0;
+        font-family: var(--body);
+        color: var(--ink);
+        line-height: 1.6;
+        background: var(--bg);
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--accent-deep);
+      }
+
+      /* ---- nav ---- */
+      .site-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--nav-h);
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.86);
+        backdrop-filter: saturate(140%) blur(10px);
+        -webkit-backdrop-filter: saturate(140%) blur(10px);
+        border-bottom: 1px solid var(--rule);
+        z-index: 100;
+      }
+      .nav-inner {
+        width: 100%;
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: s0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .nav-brand {
+        font-family: var(--mono);
+        font-weight: 600;
+        font-size: 15px;
+        color: var(--ink);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .nav-brand .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 0 rgba(13, 118, 108, 0.5);
+        animation: navpulse 2.4s ease-out infinite;
+      }
+      @keyframes navpulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(13, 118, 108, 0.5);
+        }
+        70% {
+          box-shadow: 0 0 0 6px rgba(13, 118, 108, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(13, 118, 108, 0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .nav-brand .dot {
+          animation: none;
+        }
+      }
+      .nav-brand span {
+        color: var(--muted);
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .nav-link {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 500;
+        padding: 6px 0;
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.15s,
+          border-color 0.15s;
+      }
+      .nav-link:hover {
+        color: var(--ink);
+      }
+      .nav-link.cta {
+        color: var(--accent-deep);
+        border: 1px solid var(--accent);
+        border-radius: 6px;
+        padding: 6px 12px;
+      }
+      .nav-link.cta:hover {
+        background: var(--tint);
+      }
+      .nav-toggle {
+        display: none;
+        background: none;
+        border: 0;
+        cursor: pointer;
+        padding: 8px;
+      }
+      .nav-toggle span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--ink);
+        margin: 4px 0;
+        transition: 0.2s;
+      }
+
+      /* ---- layout ---- */
+      .section {
+        padding: 76px 0;
+      }
+      .section-alt {
+        background: var(--bg-alt);
+      }
+      .container {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      .kicker {
+        font-family: var(--mono);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--accent);
+        margin: 0 0 10px;
+      }
+      .section h2 {
+        font-family: var(--disp);
+        font-size: clamp(24px, 3.4vw, 30px);
+        font-weight: 700;
+        margin: 0 0 28px;
+        letter-spacing: -0.01em;
+      }
+
+      /* ---- hero ---- */
+      .hero {
+        --level: 0.34;
+        position: relative;
+        z-index: 0;
+        min-height: calc(100vh - var(--nav-h));
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: calc(var(--nav-h) + 40px) 24px 128px;
+        border-bottom: 1px solid var(--rule);
+        overflow: hidden;
+        transition: background 0.45s ease;
+        background:
+          radial-gradient(
+            85% 120% at 50% -15%,
+            rgba(13, 118, 108, calc(0.05 + var(--level) * 0.26)),
+            transparent 65%
+          ),
+          linear-gradient(180deg, #fbfdfd, var(--bg));
+      }
+      .hero-inner {
+        max-width: 780px;
+        width: 100%;
+        position: relative;
+      }
+      .hero .eyebrow {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        color: var(--muted);
+        margin: 0 0 16px;
+        letter-spacing: 0.02em;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .hero .eyebrow .live {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        position: relative;
+      }
+      .hero .eyebrow .live::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: var(--accent);
+        animation: ring 2s ease-out infinite;
+      }
+      @keyframes ring {
+        0% {
+          transform: scale(1);
+          opacity: 0.6;
+        }
+        100% {
+          transform: scale(3);
+          opacity: 0;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero .eyebrow .live::after {
+          animation: none;
+        }
+      }
+      .hero h1 {
+        font-family: var(--disp);
+        font-size: clamp(40px, 6vw, 58px);
+        line-height: 1.04;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin: 0 0 8px;
+      }
+      .hero .role {
+        font-family: var(--disp);
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--accent-deep);
+        margin: 0 0 22px;
+      }
+      .hero .pitch {
+        font-size: calc(17px + var(--level) * 3px);
+        line-height: 1.5;
+        color: #2b3a38;
+        max-width: 660px;
+        margin: 0 auto 24px;
+        transition:
+          color 0.4s,
+          font-size 0.4s;
+        min-height: 3.2em;
+      }
+      .hero-cta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        position: relative;
+        z-index: 10;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--body);
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        transition:
+          background 0.15s,
+          transform 0.15s,
+          border-color 0.15s;
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--accent-deep);
+      }
+      .btn-ghost {
+        background: #fff;
+        color: var(--accent-deep);
+        border-color: var(--rule);
+      }
+      .btn-ghost:hover {
+        border-color: var(--accent);
+      }
+
+      /* proof stats */
+      .proof {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+        justify-content: center;
+        margin-top: 30px;
+        position: relative;
+        z-index: 10;
+      }
+      .proof .p {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .proof .p b {
+        color: var(--accent-deep);
+        font-weight: 600;
+      }
+      .proof .p::before {
+        content: "";
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      /* ---- severity slider (signature) ---- */
+      .tone-bar {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 26px;
+        padding: 0 28px;
+        z-index: 20;
+      }
+      .tone-read {
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin-bottom: 9px;
+        display: flex;
+        justify-content: center;
+        gap: 9px;
+        align-items: center;
+      }
+      .tone-read .sev {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .tone-read .sev .d {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: currentColor;
+        margin-right: 6px;
+        vertical-align: middle;
+      }
+      .tone-bar input[type="range"] {
+        width: 100%;
+        accent-color: var(--accent);
+        cursor: pointer;
+        margin: 0;
+      }
+      .tone-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 8px;
+        font-size: 12.5px;
+        font-family: var(--mono);
+      }
+      .tone-labels span {
+        font-style: italic;
+        color: var(--muted);
+      }
+
+      /* escalation states */
+      .hero[data-sev="2"] .pitch {
+        color: var(--amber);
+        font-weight: 500;
+      }
+      .hero[data-sev="3"] .pitch {
+        color: var(--hot);
+        font-weight: 600;
+      }
+      .hero[data-sev="2"] {
+        background:
+          radial-gradient(
+            90% 125% at 50% -12%,
+            rgba(217, 138, 31, 0.16),
+            transparent 62%
+          ),
+          linear-gradient(180deg, #fffaf1, var(--bg));
+      }
+      .hero[data-sev="2"] .tone-read .sev {
+        color: var(--amber);
+      }
+      .hero[data-sev="3"] .tone-read .sev {
+        color: var(--hot);
+      }
+      @keyframes pitchIn {
+        from {
+          opacity: 0;
+          transform: translateY(calc(6px + var(--level) * 14px));
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .pitch.animate {
+        animation: pitchIn 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      @keyframes hypePulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.015);
+        }
+      }
+      .hero[data-sev="3"] h1 {
+        animation: hypePulse 1.7s ease-in-out infinite;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .pitch.animate,
+        .hero[data-sev="3"] h1 {
+          animation: none;
+        }
+      }
+
+      /* ---- flying props (all CSS-drawn, no images) ---- */
+      .stage {
+        position: absolute;
+        inset: var(--nav-h) 0 0 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 3;
+      }
+      .prop {
+        position: absolute;
+        opacity: 0;
+        visibility: hidden;
+      }
+      .prop.in {
+        opacity: 1;
+        visibility: visible;
+      }
+      .prop.in.fx-left {
+        animation: inLeft 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+      .prop.in.fx-right {
+        animation: inRight 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+      .prop.in.fx-pop {
+        animation: pop 0.5s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+      }
+      @keyframes inLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-170%) rotate(-5deg);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes inRight {
+        from {
+          opacity: 0;
+          transform: translateX(170%) rotate(5deg);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes pop {
+        0% {
+          opacity: 0;
+          transform: scale(0.2) rotate(-12deg);
+        }
+        70% {
+          transform: scale(1.08) rotate(3deg);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) rotate(-2deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .prop.in {
+          animation: none !important;
+        }
+      }
+
+      .pos-tl {
+        top: 12%;
+        left: 4%;
+      }
+      .pos-tr {
+        top: 10%;
+        right: 4%;
+      }
+      .pos-mr {
+        top: 38%;
+        right: 3%;
+      }
+      .pos-bl {
+        bottom: 20%;
+        left: 4%;
+      }
+      .pos-br {
+        bottom: 22%;
+        right: 5%;
+      }
+
+      /* alert card prop */
+      .alert-card {
+        width: clamp(200px, 17vw, 238px);
+        background: #fff;
+        border: 1px solid var(--rule);
+        border-left: 4px solid var(--amber);
+        border-radius: 10px;
+        padding: 12px 14px;
+        box-shadow: 0 10px 30px rgba(20, 32, 30, 0.14);
+        text-align: left;
+      }
+      .alert-card.hot {
+        border-left-color: var(--hot);
+      }
+      .alert-card .top {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+      .alert-card .top b {
+        color: var(--hot);
+      }
+      .alert-card .title {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .alert-card .spark {
+        margin-top: 8px;
+        height: 22px;
+        width: 100%;
+        display: block;
+      }
+
+      /* starburst badge prop */
+      .badge {
+        width: clamp(112px, 11vw, 140px);
+        aspect-ratio: 1;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 20px;
+        font-family: var(--disp);
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: clamp(10px, 1vw, 12px);
+        line-height: 1.12;
+        color: #fff;
+        background: var(--accent);
+        clip-path: polygon(
+          50% 0,
+          61% 12%,
+          77% 7%,
+          79% 24%,
+          95% 27%,
+          88% 42%,
+          100% 53%,
+          86% 62%,
+          93% 79%,
+          76% 78%,
+          69% 94%,
+          55% 84%,
+          41% 96%,
+          33% 80%,
+          16% 83%,
+          20% 66%,
+          5% 58%,
+          17% 45%,
+          7% 29%,
+          24% 28%,
+          25% 11%,
+          41% 16%
+        );
+      }
+      .badge.amber {
+        background: var(--amber);
+        color: #1c1405;
+      }
+      .prop.idle .badge {
+        animation: wiggle 3.6s ease-in-out infinite;
+      }
+      @keyframes wiggle {
+        0%,
+        100% {
+          transform: rotate(-3deg);
+        }
+        50% {
+          transform: rotate(3deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .prop.idle .badge {
+          animation: none;
+        }
+      }
+
+      /* speech bubble prop */
+      .bubble {
+        position: relative;
+        background: var(--ink);
+        color: #fff;
+        font-family: var(--disp);
+        font-weight: 600;
+        font-size: clamp(14px, 1.5vw, 18px);
+        padding: 12px 18px;
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+        white-space: nowrap;
+      }
+      .bubble::after {
+        content: "";
+        position: absolute;
+        left: 26px;
+        bottom: -10px;
+        border: 10px solid transparent;
+        border-top-color: var(--ink);
+      }
+
+      /* finale takeover (above the slider) */
+      .finale {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: var(--nav-h);
+        bottom: 92px;
+        z-index: 50;
+        display: grid;
+        place-items: center;
+        align-content: center;
+        gap: 10px;
+        text-align: center;
+        background: var(--hot);
+        pointer-events: none;
+        opacity: 0;
+        visibility: hidden;
+        padding: 20px;
+      }
+      .finale.in {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        animation: finalePulse 1.9s ease-in-out infinite;
+      }
+      @keyframes finalePulse {
+        0%,
+        100% {
+          background: var(--hot);
+        }
+        50% {
+          background: #c53a26;
+        }
+      }
+      .finale .tagsev {
+        font-family: var(--mono);
+        font-size: clamp(12px, 2vw, 15px);
+        letter-spacing: 0.22em;
+        color: #fff;
+        opacity: 0.9;
+      }
+      .finale .msg {
+        font-family: var(--disp);
+        font-weight: 700;
+        color: #fff;
+        line-height: 0.94;
+        letter-spacing: -0.02em;
+        font-size: clamp(52px, 12vw, 148px);
+        animation: finaleText 1.9s ease-in-out infinite;
+      }
+      @keyframes finaleText {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+      }
+      .finale .contact {
+        font-family: var(--mono);
+        font-size: clamp(15px, 3vw, 26px);
+        font-weight: 600;
+      }
+      .finale .contact a {
+        color: #14201f;
+        text-decoration: none;
+      }
+      .finale .ack {
+        margin-top: 6px;
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #fff;
+        opacity: 0.85;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .finale.in,
+        .finale .msg {
+          animation: none;
+        }
+      }
+
+      /* hide flying-prop clutter on narrow screens; slider + finale still work */
+      @media (max-width: 1200px) {
+        .hero .stage {
+          display: none;
+        }
+      }
+
+      /* ---- experience ---- */
+      .exp-item {
+        display: grid;
+        grid-template-columns: 210px 1fr;
+        gap: 24px;
+        padding: 24px 0;
+        border-top: 1px solid var(--rule);
+      }
+      .exp-item:first-of-type {
+        border-top: 0;
+      }
+      .exp-when {
+        font-family: var(--mono);
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .exp-where {
+        font-family: var(--mono);
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+      }
+      .exp-role {
+        font-family: var(--disp);
+        font-weight: 600;
+        font-size: 18px;
+        margin: 0 0 2px;
+      }
+      .exp-co {
+        color: var(--accent-deep);
+        font-weight: 600;
+        margin: 0 0 10px;
+      }
+      .exp-item ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+      .exp-item li {
+        color: #36444c;
+        padding-left: 18px;
+        position: relative;
+      }
+      .exp-item li::before {
+        content: "›";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .exp-item li b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* ---- highlight cards ---- */
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 22px 22px 20px;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s,
+          transform 0.15s;
+      }
+      .card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 8px 26px rgba(20, 40, 50, 0.08);
+        transform: translateY(-2px);
+      }
+      .card .stat {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--accent-deep);
+        background: var(--tint);
+        border-radius: 999px;
+        padding: 4px 11px;
+        margin-bottom: 12px;
+        letter-spacing: 0.02em;
+      }
+      .card h3 {
+        font-family: var(--disp);
+        margin: 0 0 8px;
+        font-size: 17px;
+        font-weight: 600;
+      }
+      .card p {
+        margin: 0;
+        color: #36444c;
+        font-size: 15px;
+      }
+      .card .stackrow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 14px;
+      }
+      .card .stackrow span {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+        border: 1px solid var(--rule);
+        border-radius: 6px;
+        padding: 3px 8px;
+      }
+
+      /* ---- skills ---- */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px 40px;
+      }
+      .skill-group h3 {
+        font-family: var(--mono);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin: 0 0 8px;
+        font-size: 12px;
+        color: var(--accent-deep);
+      }
+      .skill-group p {
+        margin: 0;
+        color: #36444c;
+      }
+
+      /* ---- contact ---- */
+      .contact-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px 28px;
+        font-family: var(--mono);
+        font-size: 15px;
+      }
+      .contact-links a,
+      .contact-links span {
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .contact-links a:hover {
+        color: var(--accent-deep);
+      }
+
+      /* ---- footer ---- */
+      .site-footer {
+        border-top: 1px solid var(--rule);
+        padding: 26px 0;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 12.5px;
+      }
+
+      a:focus-visible,
+      .btn:focus-visible,
+      input:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 6px;
+      }
+
+      @media (max-width: 720px) {
+        .nav-toggle {
+          display: block;
+        }
+        .nav-links {
+          position: fixed;
+          top: var(--nav-h);
+          left: 0;
+          right: 0;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0;
+          background: #fff;
+          border-bottom: 1px solid var(--rule);
+          padding: 8px 24px 16px;
+          transform: translateY(-140%);
+          transition: transform 0.25s;
+        }
+        .nav-open .nav-links {
+          transform: translateY(0);
+        }
+        .nav-links li {
+          width: 100%;
+        }
+        .nav-link {
+          display: block;
+          width: 100%;
+          padding: 12px 0;
+        }
+        .nav-link.cta {
+          border: 0;
+          padding: 12px 0;
+        }
+        .exp-item {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .cards,
+        .skills-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a href="#top" class="nav-brand"
+          ><span class="dot"></span>prateek.rajvats<span>
+            / platform·sre</span
+          ></a
+        >
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links">
+          <li><a class="nav-link" href="#about">About</a></li>
+          <li><a class="nav-link" href="#experience">Experience</a></li>
+          <li><a class="nav-link" href="#work">Work</a></li>
+          <li><a class="nav-link" href="#skills">Skills</a></li>
+          <li><a class="nav-link" href="cv.html">CV</a></li>
+          <li><a class="nav-link cta" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main id="top">
+      <!-- HERO -->
+      <header class="hero" data-sev="1">
+        <div class="stage" aria-hidden="true">
+          <div class="prop pos-tl fx-left" data-min="2">
+            <div class="alert-card">
+              <div class="top"><span>◉ MONITOR</span><span>SEV-2</span></div>
+              <div class="title">candidate.availability</div>
+              <svg
+                class="spark"
+                viewBox="0 0 200 22"
+                preserveAspectRatio="none"
+              >
+                <polyline
+                  fill="none"
+                  stroke="var(--amber)"
+                  stroke-width="1.6"
+                  points="0,16 20,14 40,17 60,10 80,13 100,7 120,11 140,5 160,8 180,3 200,4"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="prop pos-tr fx-right idle" data-min="2">
+            <div class="badge">Open<br />to work</div>
+          </div>
+          <div class="prop pos-mr fx-right" data-min="2">
+            <div class="bubble">let's talk?</div>
+          </div>
+          <div class="prop pos-bl fx-left" data-min="3">
+            <div class="alert-card hot">
+              <div class="top"><span>◉ ALERT</span><b>SEV-1</b></div>
+              <div class="title">hiring.manager — PAGE</div>
+            </div>
+          </div>
+          <div class="prop pos-br fx-pop idle" data-min="3">
+            <div class="badge amber">99.9%<br />reply SLA</div>
+          </div>
+        </div>
+
+        <div class="finale" aria-hidden="true">
+          <div class="tagsev">SEV-1 · INCIDENT DECLARED</div>
+          <div class="msg">PAGE ME</div>
+          <div class="contact">
+            <a href="mailto:parteekrajvats@gmail.com"
+              >parteekrajvats@gmail.com</a
+            >
+          </div>
+          <div class="ack">drag back to acknowledge</div>
+        </div>
+
+        <div class="hero-inner">
+          <p class="eyebrow">
+            <span class="live"></span>Gurugram, IN&nbsp; ·&nbsp; open to senior
+            SRE / platform roles&nbsp; ·&nbsp; UK &amp; remote, sponsorship
+          </p>
+          <h1>Prateek Rajvats</h1>
+          <p class="role">Platform &amp; Reliability Engineer</p>
+          <p class="pitch" id="pitch">
+            I run the observability and reliability platform for 30+ engineering
+            teams across a multi-account AWS org — turning compliance-critical
+            infrastructure into paved roads that are safe by default.
+          </p>
+          <div class="hero-cta">
+            <a href="#work" class="btn btn-primary">See the work →</a>
+            <a href="#contact" class="btn btn-ghost">Get in touch</a>
+          </div>
+          <div class="proof">
+            <span class="p"><b>6+ yrs</b> platform / devops</span>
+            <span class="p"><b>30+ teams</b> on the platform</span>
+            <span class="p"><b>0</b> long-lived CI keys</span>
+            <span class="p"><b>SOC2 / CIS</b> as code</span>
+          </div>
+        </div>
+
+        <div class="tone-bar">
+          <div class="tone-read">
+            severity
+            <span class="sev" id="sevread"
+              ><span class="d"></span>SEV-3 · ELEVATED</span
+            >
+          </div>
+          <input
+            type="range"
+            id="tone"
+            min="0"
+            max="100"
+            value="34"
+            aria-label="How hard should I sell? Drag to escalate."
+          />
+          <div class="tone-labels">
+            <span>keep it calm</span><span>page the hiring manager</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ABOUT -->
+      <section class="section" id="about">
+        <div class="container">
+          <p class="kicker">About</p>
+          <h2>Platforms as code, reliability as a habit</h2>
+          <p style="max-width: 70ch; color: #36444c; font-size: 17px">
+            Platform engineer with 6+ years across DevOps and platform work, now
+            leading observability and reliability at Safeguard Global for 30+
+            internal teams on a multi-account AWS organisation that runs payroll
+            and workforce systems under SOC2 and CIS compliance. My work is the
+            boring-in-a-good-way kind: self-service access without long-lived
+            keys, monitors defined as code, supply-chain provenance checked
+            before anything ships, and incidents that page the right team
+            instead of everyone. I care about giving other engineers paved roads
+            — and about the day the auditors show up going quietly.
+          </p>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="section section-alt" id="experience">
+        <div class="container">
+          <p class="kicker">Experience</p>
+          <h2>Where I've worked</h2>
+
+          <div class="exp-item">
+            <div>
+              <div class="exp-when">Oct 2022 — Present</div>
+              <div class="exp-where">Remote, India</div>
+            </div>
+            <div>
+              <div class="exp-role">
+                Platform Engineer → Senior Platform Engineer
+              </div>
+              <div class="exp-co">Safeguard Global</div>
+              <ul>
+                <li>
+                  Lead platform engineering for a
+                  <b>multi-account AWS organization (20+ accounts)</b> running
+                  globally distributed payroll and workforce systems under
+                  strict data-residency and compliance requirements.
+                </li>
+                <li>
+                  Delivered Safeguard's
+                  <b>first compliance-as-code program</b> — SOC2 / CIS
+                  hardening as Terraform and IAM policy, enforced via SCPs and
+                  permission boundaries; reached SOC2 review with
+                  <b>no exceptions in scope</b>.
+                </li>
+                <li>
+                  Built a centralized, versioned
+                  <b>Terraform module ecosystem</b> and a Bitbucket Dynamic
+                  Pipelines governance system, cutting release time
+                  <b>~75%</b> and scanning across <b>30+ teams</b>.
+                </li>
+                <li>
+                  Migrated <b>300+ users</b> to AWS Identity Center; built
+                  Datadog → OpsGenie incident routing (MTTD <b>~45%</b>) and a
+                  FinOps platform surfacing <b>$150K+</b> annual savings.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="exp-item">
+            <div>
+              <div class="exp-when">Jun 2020 — Aug 2022</div>
+              <div class="exp-where">Pune → Remote, India</div>
+            </div>
+            <div>
+              <div class="exp-role">DevOps → Senior DevOps Engineer</div>
+              <div class="exp-co">Solytics Partners</div>
+              <ul>
+                <li>
+                  Promoted to lead
+                  <b>container-orchestration on ECS Fargate</b> running 50+
+                  microservices with horizontal autoscaling and cross-AZ fault
+                  tolerance.
+                </li>
+                <li>
+                  Provisioned <b>Terraform-managed AWS environments</b> for 20+
+                  services and immutable deployment pipelines —
+                  <b>95% deployment success</b>, release-cycle time cut
+                  <b>~75%</b>, infrastructure cost down <b>~30%</b>.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HIGHLIGHTS -->
+      <section class="section" id="work">
+        <div class="container">
+          <p class="kicker">Highlights</p>
+          <h2>Selected work</h2>
+          <div class="cards">
+            <div class="card">
+              <span class="stat">0 static keys</span>
+              <h3>Self-service role vending</h3>
+              <p>
+                A PR-driven system for cross-account CI credentials: engineers
+                describe the access they need in YAML, Terraform provisions
+                short-lived OIDC roles, and no static keys ever leave the
+                account. Turned a ticket queue into a merge.
+              </p>
+              <div class="stackrow">
+                <span>Terraform</span><span>AWS IAM</span><span>OIDC</span
+                ><span>Bitbucket</span>
+              </div>
+            </div>
+            <div class="card">
+              <span class="stat">monitor-as-code</span>
+              <h3>Observability &amp; incident flow</h3>
+              <p>
+                Datadog monitors for payroll Lambdas and SQS DLQs defined as
+                code, plus a roadmap to consolidate paging into Datadog Incident
+                Management — signals that page the right team instead of
+                dashboards nobody reads.
+              </p>
+              <div class="stackrow">
+                <span>Datadog</span><span>OpenTelemetry</span><span>Lambda</span
+                ><span>SQS</span>
+              </div>
+            </div>
+            <div class="card">
+              <span class="stat">provenance before ship</span>
+              <h3>SBOM governance programme</h3>
+              <p>
+                Software bill-of-materials generation and policy enforcement
+                across build pipelines with JFrog Xray and CycloneDX, wired in
+                as a custom pipeline step so provenance is checked before
+                anything reaches production.
+              </p>
+              <div class="stackrow">
+                <span>JFrog Xray</span><span>CycloneDX</span><span>CI/CD</span>
+              </div>
+            </div>
+            <div class="card">
+              <span class="stat">SOC2 / CIS mapped</span>
+              <h3>Compliance-as-code scanning</h3>
+              <p>
+                Checkov-based IaC scanning with findings mapped directly to SOC2
+                and CIS controls, so security posture is enforced at merge time
+                instead of audited after the fact.
+              </p>
+              <div class="stackrow">
+                <span>Checkov</span><span>Terraform</span
+                ><span>SOC2 / CIS</span>
+              </div>
+            </div>
+            <div class="card">
+              <span class="stat">loop-safe</span>
+              <h3>Cross-account event replication</h3>
+              <p>
+                An EventBridge architecture replicating events across AWS
+                accounts with tested bidirectional loop-prevention — the
+                connective tissue for a distributed, multi-account platform.
+              </p>
+              <div class="stackrow">
+                <span>EventBridge</span><span>Step Functions</span
+                ><span>Multi-account</span>
+              </div>
+            </div>
+            <div class="card">
+              <span class="stat">this site</span>
+              <h3>This page, as infrastructure</h3>
+              <p>
+                One self-contained static file — no build step, no framework.
+                Designed to ship on S3 + CloudFront + ACM + Route 53,
+                Terraform-provisioned, deployed by GitHub Actions via OIDC with
+                no long-lived AWS keys. Practising what the day job preaches.
+              </p>
+              <div class="stackrow">
+                <span>Terraform</span><span>S3 / CloudFront</span
+                ><span>GitHub OIDC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section class="section section-alt" id="skills">
+        <div class="container">
+          <p class="kicker">Skills</p>
+          <h2>Tools of the trade</h2>
+          <div class="skills-grid">
+            <div class="skill-group">
+              <h3>Cloud &amp; compute</h3>
+              <p>
+                AWS, ECS Fargate, Lambda, Step Functions, EventBridge, SQS, EC2
+              </p>
+            </div>
+            <div class="skill-group">
+              <h3>Infrastructure as code</h3>
+              <p>Terraform, GitOps, Docker, Kubernetes (CKA in progress)</p>
+            </div>
+            <div class="skill-group">
+              <h3>Observability</h3>
+              <p>
+                Datadog, OpenTelemetry, monitor-as-code, incident management
+              </p>
+            </div>
+            <div class="skill-group">
+              <h3>CI/CD</h3>
+              <p>Bitbucket Pipelines, GitHub Actions, OIDC-based delivery</p>
+            </div>
+            <div class="skill-group">
+              <h3>Languages &amp; scripting</h3>
+              <p>Python, Bash, SQL</p>
+            </div>
+            <div class="skill-group">
+              <h3>Security &amp; compliance</h3>
+              <p>
+                SOC2, CIS, SBOM (JFrog Xray / CycloneDX), cross-account IAM,
+                Lake Formation
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="section" id="contact">
+        <div class="container">
+          <p class="kicker">Contact</p>
+          <h2>Get in touch</h2>
+          <p
+            style="
+              max-width: 60ch;
+              color: #36444c;
+              font-size: 17px;
+              margin-bottom: 22px;
+            "
+          >
+            Open to senior SRE, platform, and observability roles — UK
+            relocation with sponsorship, or remote. Happy to walk through any of
+            the work above.
+          </p>
+          <div class="contact-links">
+            <a href="mailto:parteekrajvats@gmail.com"
+              >parteekrajvats@gmail.com</a
+            >
+            <a
+              href="https://www.linkedin.com/in/prateekrajvats/"
+              target="_blank"
+              rel="noopener"
+              >linkedin.com/in/prateekrajvats</a
+            >
+            <a
+              href="https://github.com/Prateek-Tyagi"
+              target="_blank"
+              rel="noopener"
+              >github.com/Prateek-Tyagi</a
+            >
+            <span>Gurugram, IN</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        Prateek Rajvats · Platform &amp; Reliability Engineer · one
+        self-contained static page, designed to ship on S3 + CloudFront via
+        Terraform + GitHub OIDC.
+      </div>
+    </footer>
+
+    <script>
+      // ---- mobile nav ----
+      const toggle = document.querySelector(".nav-toggle"),
+        nav = document.querySelector(".site-nav");
+      toggle.addEventListener("click", () => {
+        const o = nav.classList.toggle("nav-open");
+        toggle.setAttribute("aria-expanded", o);
+      });
+      document
+        .querySelectorAll(".nav-link")
+        .forEach((a) =>
+          a.addEventListener("click", () => nav.classList.remove("nav-open")),
+        );
+
+      // ---- severity slider ----
+      const hero = document.querySelector(".hero"),
+        tone = document.getElementById("tone"),
+        pitch = document.getElementById("pitch"),
+        sevread = document.getElementById("sevread"),
+        finale = document.querySelector(".finale"),
+        props = [...document.querySelectorAll(".prop")];
+
+      const COPY = [
+        "I run the observability and reliability platform for 30+ engineering teams across a multi-account AWS org — turning compliance-critical infrastructure into paved roads that are safe by default.",
+        "I turn fragile infrastructure into self-service platforms: instrumented, auditable, and quiet on-call. Teams ship faster because the platform has their back.",
+        "Noisy dashboards? Tired on-call? Audit season looming? That is quite literally my whole job — and I am on the market right now.",
+        "",
+      ];
+      const SEV = [
+        { t: "SEV-4 · ALL NOMINAL", c: "var(--accent)" },
+        { t: "SEV-3 · ELEVATED", c: "var(--accent)" },
+        { t: "SEV-2 · WARNING", c: "var(--amber)" },
+        { t: "SEV-1 · PAGE", c: "var(--hot)" },
+      ];
+
+      let lastSev = -1;
+      function level(v) {
+        if (v <= 30) return 0;
+        if (v <= 60) return 1;
+        if (v <= 85) return 2;
+        return 3;
+      }
+      function apply() {
+        const v = +tone.value,
+          sev = level(v);
+        hero.style.setProperty("--level", (v / 100).toFixed(3));
+        hero.dataset.sev = sev;
+        sevread.innerHTML = '<span class="d"></span>' + SEV[sev].t;
+        sevread.style.color = SEV[sev].c;
+        finale.classList.toggle("in", sev === 3);
+        props.forEach((p) => p.classList.toggle("in", sev >= +p.dataset.min));
+        if (sev !== lastSev) {
+          if (sev < 3) {
+            pitch.textContent = COPY[sev];
+            pitch.classList.remove("animate");
+            void pitch.offsetWidth;
+            pitch.classList.add("animate");
+          }
+          lastSev = sev;
+        }
+      }
+      tone.addEventListener("input", apply);
+      apply();
+    </script>
+  </body>
 </html>
