@@ -1,0 +1,12 @@
+function handler(event) {
+  var request = event.request;
+
+  // Every request to the redirect domain (apex or www) 301s to the primary.
+  return {
+    statusCode: 301,
+    statusDescription: "Moved Permanently",
+    headers: {
+      "location": { "value": "https://${primary_domain}" + request.uri }
+    }
+  };
+}

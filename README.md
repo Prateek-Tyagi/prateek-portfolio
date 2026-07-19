@@ -4,82 +4,93 @@ My personal site — a single self-contained `index.html` (no build step, no fra
 
 ```
 .
-├── index.html                 # the whole site (HTML + CSS + JS inline)
+├── index.html                    # the whole site (HTML + CSS + JS inline)
 ├── .github/workflows/deploy.yml  # OIDC deploy: sync to S3 + invalidate CloudFront
-└── terraform/                 # S3, CloudFront (OAC), ACM, Route 53, GitHub OIDC role, budget alarm
+└── terraform/
+    ├── bootstrap/                # one-time: creates the S3 remote-state bucket
+    ├── functions/                # CloudFront Functions (301 redirects)
+    └── *.tf                      # the stack
 ```
 
-## What the Terraform provisions
+## What it provisions
 
-- **S3 bucket** — private, versioned, encrypted; readable only by CloudFront.
-- **CloudFront** — HTTPS-only, HTTP/2 + IPv6, Origin Access Control (the modern replacement for OAI), single-page error fallback to `index.html`.
-- **ACM certificate** — issued in `us-east-1` (required by CloudFront), DNS-validated.
-- **Route 53** — A/AAAA alias records for the apex and `www`.
-- **GitHub OIDC role** — assumed by GitHub Actions; scoped to `s3:*Object` on this bucket + `cloudfront:CreateInvalidation` on this distribution, and only from this repo's `main` branch.
-- **AWS Budget** — emails you if monthly spend crosses 80% / 100% of a small limit.
+- **`prateek.co.uk`** serves `index.html` over HTTPS from a private S3 bucket via CloudFront (Origin Access Control, TLS 1.2+, HTTP→HTTPS, compression, HSTS, PriceClass_100).
+- **`www.prateek.co.uk`** 301-redirects to the apex via a CloudFront Function.
+- **`prateektyagi.com`** and **`www.prateektyagi.com`** 301-redirect to `https://prateek.co.uk` via a small dedicated CloudFront distribution (a CloudFront Function returns the 301).
+- **ACM certs** in `us-east-1` (required by CloudFront), DNS-validated.
+- **Route 53** A/AAAA aliases at every apex and www. Both hosted zones (`prateek.co.uk` and `prateektyagi.com`) already exist and are **looked up** via data sources — Terraform never creates or duplicates a zone. Web-only; no email records are managed.
+- **GitHub OIDC role** — assumed by GitHub Actions, scoped to `repo:Prateek-Tyagi/prateek-portfolio:ref:refs/heads/main`, allowed only `s3:PutObject/DeleteObject/GetObject/ListBucket` on the site bucket and `cloudfront:CreateInvalidation` on the primary distribution. No wildcards.
+- **AWS Budget** — emails you at 80%/100% of a ~$5/month tripwire.
 
-Remote state lives in S3 with **native lockfile locking** (`use_lockfile`, no DynamoDB table).
+Remote state: S3 backend with **native lockfile locking** (`use_lockfile`, no DynamoDB).
 
 ## Prerequisites
 
-- A domain with a **public Route 53 hosted zone** already in the account (auto-created if you registered via Route 53; otherwise create the zone and point your registrar's NS records at it).
-- Terraform **>= 1.10**, AWS CLI, and credentials for a bootstrap apply.
+- Terraform **>= 1.10**, AWS CLI with credentials for the target account.
+- Both `prateek.co.uk` and `prateektyagi.com` already exist as public Route 53 hosted zones (delegation already in place).
 
-## Deploy
+## Run order
 
-### 1. Bootstrap the state bucket (one time)
+### 1. Bootstrap the remote-state bucket (once)
 
 ```bash
-aws s3api create-bucket \
-  --bucket prateek-portfolio-tfstate \
-  --region ap-south-1 \
-  --create-bucket-configuration LocationConstraint=ap-south-1
-aws s3api put-bucket-versioning \
-  --bucket prateek-portfolio-tfstate \
-  --versioning-configuration Status=Enabled
+cd terraform/bootstrap
+terraform init
+terraform apply          # creates prateek-portfolio-tfstate (versioned, encrypted, private)
+cd ..
 ```
 
-### 2. Configure
+### 2. Initialise the main stack
 
 ```bash
 cd terraform
-cp backend.hcl.example backend.hcl        # set your state bucket + region
-cp terraform.tfvars.example terraform.tfvars   # set domain_name (at minimum)
+terraform init -backend-config=backend.hcl
 ```
 
-### 3. Apply
+`terraform.tfvars` and `backend.hcl` already hold real values (both gitignored). Edit if needed.
+
+### 3. Plan and apply
 
 ```bash
-terraform init -backend-config=backend.hcl
 terraform plan
 terraform apply
 ```
 
-Terraform prints the values you need for GitHub:
+Both zones already exist, so the ACM certs validate automatically once the
+DNS validation records are in place — no registrar changes needed.
 
+### 4. Wire up GitHub Actions secrets
+
+`terraform apply` prints four outputs that map 1:1 to repo **secrets**
+(Settings → Secrets and variables → Actions → *Secrets*):
+
+| GitHub secret                | Comes from Terraform output  |
+| ---------------------------- | ---------------------------- |
+| `AWS_ROLE_ARN`               | `aws_role_arn`               |
+| `AWS_REGION`                 | `aws_region`                 |
+| `S3_BUCKET`                  | `s3_bucket`                  |
+| `CLOUDFRONT_DISTRIBUTION_ID` | `cloudfront_distribution_id` |
+
+Set them quickly with the GitHub CLI:
+
+```bash
+cd terraform
+gh secret set AWS_ROLE_ARN               -b "$(terraform output -raw aws_role_arn)"
+gh secret set AWS_REGION                 -b "$(terraform output -raw aws_region)"
+gh secret set S3_BUCKET                  -b "$(terraform output -raw s3_bucket)"
+gh secret set CLOUDFRONT_DISTRIBUTION_ID -b "$(terraform output -raw cloudfront_distribution_id)"
 ```
-github_actions_role_arn    = arn:aws:iam::...:role/prateek-portfolio-github-deploy
-site_bucket_name           = ...-site
-cloudfront_distribution_id = E...
-```
 
-### 4. Wire up GitHub Actions
+### 5. Deploy
 
-In the repo → **Settings → Secrets and variables → Actions**:
-
-| Kind     | Name                         | Value                          |
-| -------- | ---------------------------- | ------------------------------ |
-| Secret   | `AWS_ROLE_ARN`               | `github_actions_role_arn`      |
-| Variable | `AWS_REGION`                 | e.g. `ap-south-1`              |
-| Variable | `S3_BUCKET`                  | `site_bucket_name`             |
-| Variable | `CLOUDFRONT_DISTRIBUTION_ID` | `cloudfront_distribution_id`   |
-
-Push to `main` and the workflow syncs `index.html` to S3 and invalidates the cache. That's the whole loop — edit the page, commit, and it's live in seconds with no keys anywhere.
+Push to `main`. The workflow assumes the OIDC role, `aws s3 sync`s the site files
+(only `*.html` + `assets/**` — never `terraform/`, `.github/`, or `.git/`) to S3,
+and invalidates CloudFront `"/*"`.
 
 ## Notes
 
-- `terraform.tfvars` and `backend.hcl` are gitignored (they hold account-specific values). The `.example` files are the templates.
-- If the account already has a GitHub Actions OIDC provider, set `create_oidc_provider = false` so Terraform reuses it instead of erroring.
+- `terraform.tfvars` and `backend.hcl` are gitignored (account-specific). The `.example` files are the templates.
+- OIDC provider: `create_oidc_provider` defaults to `false` (reuse the existing one). Set `true` only if the account has none — check with `aws iam list-open-id-connect-providers`.
 
 ## Credits
 

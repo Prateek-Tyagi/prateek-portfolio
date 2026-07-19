@@ -1,4 +1,12 @@
-# GitHub Actions federates into AWS via OIDC — no long-lived access keys.
+# Reuse the account's existing GitHub Actions OIDC provider by default (look it
+# up), and create one only when create_oidc_provider = true. This never creates
+# a duplicate provider. Pre-check with:
+#   aws iam list-open-id-connect-providers
+data "aws_iam_openid_connect_provider" "github" {
+  count = var.create_oidc_provider ? 0 : 1
+  url   = "https://token.actions.githubusercontent.com"
+}
+
 resource "aws_iam_openid_connect_provider" "github" {
   count = var.create_oidc_provider ? 1 : 0
 
@@ -10,13 +18,8 @@ resource "aws_iam_openid_connect_provider" "github" {
   ]
 }
 
-data "aws_iam_openid_connect_provider" "github" {
-  count = var.create_oidc_provider ? 0 : 1
-  url   = "https://token.actions.githubusercontent.com"
-}
-
 locals {
-  oidc_provider_arn = var.create_oidc_provider ? aws_iam_openid_connect_provider.github[0].arn : data.aws_iam_openid_connect_provider.github[0].arn
+  github_oidc_arn = var.create_oidc_provider ? aws_iam_openid_connect_provider.github[0].arn : data.aws_iam_openid_connect_provider.github[0].arn
 }
 
 data "aws_iam_policy_document" "github_assume" {
@@ -26,7 +29,7 @@ data "aws_iam_policy_document" "github_assume" {
 
     principals {
       type        = "Federated"
-      identifiers = [local.oidc_provider_arn]
+      identifiers = [local.github_oidc_arn]
     }
 
     condition {
@@ -35,11 +38,11 @@ data "aws_iam_policy_document" "github_assume" {
       values   = ["sts.amazonaws.com"]
     }
 
-    # Only workflow runs on the given repo + branch may assume this role.
+    # Only this repo's main branch may assume the role.
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_owner}/${var.github_repo}:ref:refs/heads/${var.github_branch}"]
+      values   = ["repo:${var.github_repo}:ref:refs/heads/${var.github_branch}"]
     }
   }
 }
@@ -50,9 +53,10 @@ resource "aws_iam_role" "github_deploy" {
   assume_role_policy = data.aws_iam_policy_document.github_assume.json
 }
 
+# Least privilege: only this bucket and only this distribution. No wildcards.
 data "aws_iam_policy_document" "github_deploy" {
   statement {
-    sid       = "SyncSiteBucket"
+    sid       = "ListSiteBucket"
     effect    = "Allow"
     actions   = ["s3:ListBucket"]
     resources = [aws_s3_bucket.site.arn]
@@ -62,18 +66,18 @@ data "aws_iam_policy_document" "github_deploy" {
     sid    = "WriteSiteObjects"
     effect = "Allow"
     actions = [
-      "s3:GetObject",
       "s3:PutObject",
       "s3:DeleteObject",
+      "s3:GetObject",
     ]
     resources = ["${aws_s3_bucket.site.arn}/*"]
   }
 
   statement {
-    sid       = "InvalidateCache"
+    sid       = "InvalidatePrimaryDistribution"
     effect    = "Allow"
     actions   = ["cloudfront:CreateInvalidation"]
-    resources = [aws_cloudfront_distribution.site.arn]
+    resources = [aws_cloudfront_distribution.primary.arn]
   }
 }
 

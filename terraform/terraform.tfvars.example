@@ -1,23 +1,12 @@
 # Copy to terraform.tfvars and fill in. terraform.tfvars is gitignored.
 
-# ---- REQUIRED ----
-# Apex domain. A PUBLIC Route 53 hosted zone for this must already exist.
-domain_name = "example.com" # <-- CHANGE ME
+domain_name     = "prateek.co.uk"       # serves the site over HTTPS
+redirect_domain = "prateektyagi.com"    # 301 -> https://<domain_name>
+aws_region      = "eu-west-2"           # S3 bucket + account resources (ACM is forced to us-east-1)
+github_repo     = "Prateek-Tyagi/prateek-portfolio"
+budget_email    = "you@example.com"     # monthly budget alert recipient
 
-# ---- OPTIONAL (defaults shown) ----
-# aws_region                = "ap-south-1"
-# include_www               = true
-# site_bucket_name          = null            # null => "<domain-with-dashes>-site"
-# cloudfront_price_class    = "PriceClass_100"
-
-# GitHub repo allowed to deploy via OIDC.
-# github_owner  = "Prateek-Tyagi"
-# github_repo   = "prateek-portfolio"
-# github_branch = "main"
-
-# Set false if this account ALREADY has the GitHub OIDC provider.
-# create_oidc_provider = true
-
-# Billing guardrail.
-# budget_limit_usd          = 5
-# budget_notification_email = "parteekrajvats@gmail.com"
+# Optional (defaults shown):
+# create_oidc_provider = false          # true only if the account has no GitHub OIDC provider
+# budget_limit_usd     = 5
+# github_branch        = "main"

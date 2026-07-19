@@ -1,29 +1,36 @@
-output "site_bucket_name" {
-  description = "S3 bucket that holds the static site. Set as the S3_BUCKET repo variable."
+# ---- These four map 1:1 to the GitHub Actions secrets in deploy.yml -------
+output "aws_role_arn" {
+  description = "GitHub secret AWS_ROLE_ARN — the OIDC deploy role."
+  value       = aws_iam_role.github_deploy.arn
+}
+
+output "aws_region" {
+  description = "GitHub secret AWS_REGION."
+  value       = var.aws_region
+}
+
+output "s3_bucket" {
+  description = "GitHub secret S3_BUCKET — the site origin bucket."
   value       = aws_s3_bucket.site.bucket
 }
 
 output "cloudfront_distribution_id" {
-  description = "CloudFront distribution ID. Set as the CLOUDFRONT_DISTRIBUTION_ID repo variable."
-  value       = aws_cloudfront_distribution.site.id
+  description = "GitHub secret CLOUDFRONT_DISTRIBUTION_ID — the primary distribution."
+  value       = aws_cloudfront_distribution.primary.id
 }
 
-output "cloudfront_domain_name" {
-  description = "CloudFront domain (useful for testing before DNS propagates)."
-  value       = aws_cloudfront_distribution.site.domain_name
+# ---- Helpful extras --------------------------------------------------------
+output "primary_cloudfront_domain" {
+  description = "Primary distribution domain (test before DNS propagates)."
+  value       = aws_cloudfront_distribution.primary.domain_name
 }
 
-output "github_actions_role_arn" {
-  description = "IAM role ARN for GitHub Actions. Set as the AWS_ROLE_ARN repo secret/variable."
-  value       = aws_iam_role.github_deploy.arn
+output "redirect_cloudfront_domain" {
+  description = "Redirect distribution domain."
+  value       = aws_cloudfront_distribution.redirect.domain_name
 }
 
-output "hosted_zone_name_servers" {
-  description = "Route 53 name servers — point your registrar here if the domain is registered elsewhere."
-  value       = data.aws_route53_zone.site.name_servers
-}
-
-output "acm_certificate_arn" {
-  description = "Validated ACM certificate ARN used by CloudFront."
-  value       = aws_acm_certificate_validation.site.certificate_arn
+output "oidc_provider_mode" {
+  description = "Whether Terraform created the GitHub OIDC provider or reused an existing one."
+  value       = var.create_oidc_provider ? "created" : "reused-existing"
 }

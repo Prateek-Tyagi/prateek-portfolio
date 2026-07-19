@@ -9,12 +9,10 @@ terraform {
     }
   }
 
-  # Remote state on S3 with native lockfile locking (no DynamoDB table needed).
-  # Concrete values are supplied at init time from backend.hcl so this file
-  # stays free of account-specific details:
+  # Remote state on S3 with native lockfile locking (no DynamoDB table).
+  # Concrete bucket/key/region come from backend.hcl at init time:
   #   terraform init -backend-config=backend.hcl
   backend "s3" {
-    key          = "portfolio/terraform.tfstate"
     encrypt      = true
     use_lockfile = true
   }

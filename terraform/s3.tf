@@ -1,14 +1,9 @@
-locals {
-  site_bucket_name = coalesce(var.site_bucket_name, "${replace(var.domain_name, ".", "-")}-site")
-
-  domain_aliases = var.include_www ? [var.domain_name, "www.${var.domain_name}"] : [var.domain_name]
-}
-
+# Private origin bucket in the primary region. No website configuration — the
+# site is served exclusively through CloudFront via Origin Access Control.
 resource "aws_s3_bucket" "site" {
   bucket = local.site_bucket_name
 }
 
-# The bucket is private; CloudFront reads it through Origin Access Control only.
 resource "aws_s3_bucket_public_access_block" "site" {
   bucket = aws_s3_bucket.site.id
 
@@ -44,13 +39,12 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "site" {
   }
 }
 
-# Allow only this CloudFront distribution to read objects (OAC + SourceArn lock).
+# Only the primary CloudFront distribution may read objects (OAC + SourceArn).
 data "aws_iam_policy_document" "site" {
   statement {
-    sid     = "AllowCloudFrontOAC"
-    effect  = "Allow"
-    actions = ["s3:GetObject"]
-
+    sid       = "AllowCloudFrontOAC"
+    effect    = "Allow"
+    actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.site.arn}/*"]
 
     principals {
@@ -61,7 +55,7 @@ data "aws_iam_policy_document" "site" {
     condition {
       test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values   = [aws_cloudfront_distribution.site.arn]
+      values   = [aws_cloudfront_distribution.primary.arn]
     }
   }
 }
