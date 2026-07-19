@@ -26,6 +26,18 @@ variable "github_branch" {
   default     = "main"
 }
 
+variable "github_sub_claim_prefix" {
+  description = <<-EOT
+    OIDC subject-claim prefix GitHub presents (everything before ':ref:...').
+    GitHub now embeds immutable numeric IDs, so it looks like
+    repo:OWNER@OWNER_ID/REPO@REPO_ID rather than the classic repo:OWNER/REPO.
+    Leave empty to use the classic form. Find yours with:
+      gh api /repos/OWNER/REPO/actions/oidc/customization/sub
+  EOT
+  type        = string
+  default     = ""
+}
+
 variable "create_oidc_provider" {
   description = "Create the GitHub Actions OIDC provider. Keep false to REUSE an existing token.actions.githubusercontent.com provider (the common case). Set true only if the account has none. Check with: aws iam list-open-id-connect-providers"
   type        = bool

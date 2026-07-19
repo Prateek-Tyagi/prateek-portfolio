@@ -10,3 +10,8 @@ budget_email    = "you@example.com"     # monthly budget alert recipient
 # create_oidc_provider = false          # true only if the account has no GitHub OIDC provider
 # budget_limit_usd     = 5
 # github_branch        = "main"
+
+# If GitHub sends an immutable subject (owner/repo IDs embedded), set the exact
+# prefix here so the role trust matches. Find it with:
+#   gh api /repos/OWNER/REPO/actions/oidc/customization/sub
+# github_sub_claim_prefix = "repo:OWNER@OWNER_ID/REPO@REPO_ID"

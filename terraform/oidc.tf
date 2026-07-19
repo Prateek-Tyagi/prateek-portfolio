@@ -20,6 +20,11 @@ resource "aws_iam_openid_connect_provider" "github" {
 
 locals {
   github_oidc_arn = var.create_oidc_provider ? aws_iam_openid_connect_provider.github[0].arn : data.aws_iam_openid_connect_provider.github[0].arn
+
+  # GitHub's immutable subject embeds owner/repo IDs, so honor github_sub_claim_prefix
+  # when set; otherwise fall back to the classic repo:<owner>/<repo> form.
+  oidc_sub_prefix = var.github_sub_claim_prefix != "" ? var.github_sub_claim_prefix : "repo:${var.github_repo}"
+  oidc_sub        = "${local.oidc_sub_prefix}:ref:refs/heads/${var.github_branch}"
 }
 
 data "aws_iam_policy_document" "github_assume" {
@@ -42,7 +47,7 @@ data "aws_iam_policy_document" "github_assume" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_repo}:ref:refs/heads/${var.github_branch}"]
+      values   = [local.oidc_sub]
     }
   }
 }
