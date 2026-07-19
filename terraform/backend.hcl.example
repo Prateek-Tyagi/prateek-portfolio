@@ -1,0 +1,8 @@
+# Copy to backend.hcl and fill in, then:
+#   terraform init -backend-config=backend.hcl
+#
+# The bucket must already exist (see the bootstrap step in README.md).
+# No DynamoDB table is needed — locking uses the native S3 lockfile.
+
+bucket = "prateek-portfolio-tfstate" # <-- CHANGE ME (must be globally unique)
+region = "ap-south-1"                # <-- region the state bucket lives in
