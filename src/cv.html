@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prateek Rajvats — CV</title>
+<meta name="description" content="Curriculum vitae of Prateek Rajvats, Senior Platform Engineer — Cloud Infrastructure & SRE.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#0d766c;
+    --accent-deep:#0a5951;
+    --tint:#e4f1ef;
+    --ink:#14201f;
+    --muted:#5c6a6b;
+    --rule:#dde4e2;
+    --paper:#ffffff;
+    --bg:#eceff1;
+    --nav-h:60px;
+    --disp:'Sora',-apple-system,'Segoe UI',sans-serif;
+    --body:'Inter',-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  }
+  @page{ size:A4; margin:15mm 16mm; }
+  *{box-sizing:border-box}
+  html{ font-family:var(--body); color:var(--ink); line-height:1.42; -webkit-font-smoothing:antialiased; }
+  body{ margin:0; }
+
+  /* ---- site nav (screen only) ---- */
+  .site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);display:flex;align-items:center;
+    background:rgba(255,255,255,.9);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--rule);z-index:100}
+  .nav-inner{width:100%;max-width:900px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+  .nav-brand{font-family:var(--mono);font-weight:600;font-size:14px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px}
+  .nav-brand .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .nav-brand span{color:var(--muted)}
+  .nav-links{display:flex;align-items:center;gap:20px;list-style:none;margin:0;padding:0}
+  .nav-links a{text-decoration:none;color:var(--muted);font-size:13.5px;font-weight:500}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a.current{color:var(--accent-deep);font-weight:600}
+  .btn-pdf{font-family:var(--body);font-size:13px;font-weight:600;color:#fff;background:var(--accent);border:0;border-radius:7px;
+    padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+  .btn-pdf:hover{background:var(--accent-deep)}
+  .btn-pdf svg{width:14px;height:14px}
+  @media (max-width:640px){.nav-links a:not(.current){display:none}}
+
+  /* ---- A4 sheet (screen) ---- */
+  .sheet{ max-width:210mm; margin:0 auto; padding:15mm 16mm; background:var(--paper); }
+  @media screen{
+    html{ background:var(--bg); }
+    body{ padding:calc(var(--nav-h) + 26px) 14px 40px; }
+    .sheet{ min-height:297mm; border-radius:3px; box-shadow:0 1px 2px rgba(0,0,0,.06),0 14px 38px rgba(20,40,50,.13); }
+  }
+
+  /* ---- masthead ---- */
+  .name{ font-family:var(--disp); font-size:27pt; font-weight:600; letter-spacing:.01em; text-align:center; margin:0 0 2pt; }
+  .subtitle{ text-align:center; font-family:var(--mono); font-size:9.5pt; font-weight:600; text-transform:uppercase;
+    letter-spacing:.22em; color:var(--accent); margin:0 0 9pt; }
+  .contact{ text-align:center; color:var(--muted); font-size:9.3pt; line-height:1.7; margin:0; }
+  .contact a{ color:var(--muted); text-decoration:none; }
+  .contact .sep{ margin:0 5pt; color:var(--rule); }
+
+  /* ---- section headers ---- */
+  h2{ font-size:10pt; font-weight:700; text-transform:uppercase; letter-spacing:.13em; color:var(--accent);
+    border-bottom:1.5px solid var(--rule); padding-bottom:3pt; margin:15pt 0 7pt; }
+  .rule-top{ border:none; border-top:1px solid var(--rule); margin:11pt 0 0; }
+
+  /* ---- experience ---- */
+  .job{ margin-bottom:9pt; }
+  .job h3{ font-family:var(--disp); font-size:11.5pt; font-weight:600; color:var(--ink); margin:9pt 0 0; }
+  .job .meta{ color:var(--muted); font-size:9.4pt; margin:1pt 0 4pt; display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px }
+  .job .meta .role{ color:var(--accent-deep); font-weight:600; }
+  ul{ margin:3pt 0 6pt; padding-left:15pt; list-style:none; }
+  li{ position:relative; margin-bottom:3pt; padding-left:4pt; font-size:9.9pt; }
+  li::before{ content:""; position:absolute; left:-8pt; top:5.5pt; width:4px; height:4px; background:var(--accent); border-radius:50%; }
+  strong{ color:var(--ink); font-weight:600; }
+  code{ font-family:var(--mono); font-size:.82em; background:var(--tint); color:var(--accent-deep);
+    padding:.05em .34em; border-radius:3px; white-space:nowrap; }
+
+  /* ---- skills / two-col ---- */
+  .kv{ font-size:9.9pt; margin:2.5pt 0; }
+  .kv b{ color:var(--accent-deep); font-weight:600; }
+  .edu{ display:flex; justify-content:space-between; font-size:9.9pt; margin:2.5pt 0; gap:8px; }
+  .edu .muted{ color:var(--muted); }
+
+  /* ---- contact icons ---- */
+  [class^="ico-"]::before{ content:""; display:inline-block; width:.86em; height:.86em; vertical-align:-.14em;
+    background-repeat:no-repeat; background-position:center; background-size:contain; margin-right:.26em; }
+  .ico-pin::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c6a6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 10c0 7-8 12-8 12s-8-5-8-12a8 8 0 0 1 16 0Z'/><circle cx='12' cy='10' r='3'/></svg>")}
+  .ico-mail::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c6a6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect width='20' height='16' x='2' y='4' rx='2'/><path d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'/></svg>")}
+  .ico-phone::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c6a6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z'/></svg>")}
+  .ico-globe::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c6a6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20'/><path d='M2 12h20'/></svg>")}
+  .ico-linkedin::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235c6a6b'><path d='M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z'/></svg>")}
+  .ico-github::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235c6a6b'><path d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/></svg>")}
+
+  /* ---- print ---- */
+  @media print{
+    .site-nav{ display:none; }
+    body{ padding:0; background:#fff; }
+    .sheet{ box-shadow:none; border-radius:0; margin:0; padding:0; max-width:none; min-height:0; }
+    a{ color:var(--accent-deep); text-decoration:none; }
+    .job,li{ page-break-inside:avoid; }
+    h2{ page-break-after:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html"><span class="dot"></span>prateek.rajvats<span> / platform·sre</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a class="current" href="cv.html">CV</a></li>
+      <li><button class="btn-pdf" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Download PDF</button></li>
+    </ul>
+  </div>
+</header>
+
+<main class="sheet">
+  <h1 class="name">Prateek Rajvats</h1>
+  <p class="subtitle">Senior Platform Engineer · Cloud Infrastructure &amp; SRE</p>
+  <p class="contact">
+    <span class="ico-pin"></span>Gurugram, India <span class="sep">·</span>
+    <span class="ico-phone"></span><a href="tel:+919997994367">+91 99979 94367</a> <span class="sep">·</span>
+    <span class="ico-mail"></span><a href="mailto:parteekrajvats@gmail.com">parteekrajvats@gmail.com</a><br>
+    <span class="ico-linkedin"></span><a href="https://www.linkedin.com/in/prateekrajvats/">linkedin.com/in/prateekrajvats</a> <span class="sep">·</span>
+    <span class="ico-github"></span><a href="https://github.com/Prateek-Tyagi">github.com/Prateek-Tyagi</a> <span class="sep">·</span>
+    <span class="ico-globe"></span><a href="https://prateek.co.uk">prateek.co.uk</a>
+  </p>
+
+  <hr class="rule-top">
+
+  <h2>Summary</h2>
+  <p>Platform engineer with <strong>6+ years</strong> building and operating secure, multi-account AWS infrastructure for globally distributed production systems. I turn manual, error-prone operations into self-service platforms — governance enforced as code, reliability measured against SLOs, and guardrails that let product teams ship safely without waiting on Platform. Comfortable across the full surface area: IaC, CI/CD, observability, container security, and FinOps.</p>
+
+  <h2>Technical Skills</h2>
+  <p class="kv"><b>Cloud &amp; Governance:</b> AWS (Organizations, Control Tower, SCPs, IAM Identity Center, Lake Formation, VPC, Transit Gateway, EC2, ECS, Lambda, Step Functions, EventBridge, RDS, S3, Athena, Glue)</p>
+  <p class="kv"><b>IaC &amp; Automation:</b> Terraform (module registries, remote state), CloudFormation, AWS CDK, Ansible, Python (boto3), Bash</p>
+  <p class="kv"><b>CI/CD:</b> Bitbucket Pipelines, AWS CodePipeline, GitHub Actions, OIDC-based auth</p>
+  <p class="kv"><b>Containers &amp; Security:</b> Docker, ECS Fargate (primary), Kubernetes / EKS (working knowledge; CKA in progress), JFrog Artifactory &amp; Xray, ECR scanning</p>
+  <p class="kv"><b>SRE &amp; Observability:</b> SLO/SLI design, error budgets, Datadog (RUM, synthetics, monitors, logging), CloudWatch, incident management, OpsGenie on-call</p>
+  <p class="kv"><b>Compliance &amp; FinOps:</b> SOC2 Type II, CIS Benchmarks, GDPR, KMS, compliance-as-code, cost attribution &amp; tagging, rightsizing, RI planning</p>
+
+  <h2>Experience</h2>
+
+  <div class="job">
+    <h3>Safeguard Global</h3>
+    <div class="meta"><span class="role">Platform Engineer → Senior Platform Engineer</span><span>Oct 2022 – Present &nbsp;·&nbsp; Remote, India</span></div>
+    <ul>
+      <li>Lead platform engineering for a <strong>multi-account AWS organization (20+ accounts)</strong> running globally distributed payroll and workforce systems under strict data-residency and compliance requirements.</li>
+      <li>Delivered Safeguard's <strong>first compliance-as-code program</strong> — codifying SOC2 / CIS hardening, encryption-at-rest, IAM least-privilege, and audit logging as Terraform and IAM policy, and enforcing org-wide guardrails via SCPs, permission boundaries, and mandatory encryption; reached SOC2 review with <strong>no exceptions in scope</strong>.</li>
+      <li>Built a centralized, versioned <strong>Terraform module ecosystem</strong> with CI-integrated policy validation, cutting release time <strong>~75%</strong> by letting teams provision compliant infrastructure deterministically across dev/stage/prod.</li>
+      <li>Building a <strong>Bitbucket Dynamic Pipelines</strong> governance system (Forge app) that injects SonarQube and security controls into repositories at runtime — enforcing governance with zero per-repo configuration.</li>
+      <li>Centralized code-quality and artifact-security scanning across <strong>30+ teams</strong> (SonarQube via versioned Docker-based Bitbucket Pipes, SBOM generation, JFrog Xray/Artifactory) as a self-service platform, reducing manual vulnerability-triage effort <strong>~60%</strong>.</li>
+      <li>Built a <strong>container-security pipeline</strong> integrating JFrog Xray with policy gates that block vulnerable images from production, cutting remediation time <strong>~60%</strong>.</li>
+      <li>Migrated <strong>300+ users</strong> from per-account IAM to <strong>AWS Identity Center</strong>, designing custom permission sets that standardized and centralized access control across the organization.</li>
+      <li>Built an end-to-end <strong>incident system</strong> (Datadog → OpsGenie) with custom routing, escalation, and on-call rotations, reducing MTTD <strong>~45%</strong>; instrumented SLOs/SLIs with error-budget policies to sustain <strong>~99.7% availability</strong>.</li>
+      <li>Stood up a <strong>FinOps cost-visibility platform</strong> with an automated tagging taxonomy and cross-account aggregation, driving a <strong>~30% AWS cost reduction</strong> and <strong>$150K+</strong> in annual savings via rightsizing, commitment / RI planning, and idle-resource elimination.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <h3>Solytics Partners</h3>
+    <div class="meta"><span class="role">DevOps Engineer → Senior DevOps Engineer</span><span>Jun 2020 – Aug 2022 &nbsp;·&nbsp; Pune → Remote, India</span></div>
+    <ul>
+      <li>Promoted to lead <strong>container-orchestration design on ECS Fargate</strong> running 50+ microservices with horizontal autoscaling and cross-AZ fault tolerance.</li>
+      <li>Provisioned <strong>Terraform-managed AWS environments</strong> for 20+ services with VPC isolation, security-group hardening, and least-privilege IAM roles.</li>
+      <li>Implemented <strong>immutable deployment pipelines</strong> with artifact versioning and a <strong>95% deployment success rate</strong> via automated integration testing, canary releases, and rollback — compressing release-cycle time <strong>~75%</strong>.</li>
+      <li>Drove <strong>~30% infrastructure cost reduction</strong> via compute rightsizing, reserved-instance procurement, and architectural optimization.</li>
+    </ul>
+  </div>
+
+  <h2>Selected Projects</h2>
+  <p class="kv"><b>SarkariPing</b> <span class="muted">(active side project)</span> — A government-job alerts PWA for Indian students who miss deadlines buried across fragmented government portals. Matches students to eligible roles, uses an LLM syllabus parser to identify cross-exam overlap, assesses current prep level, and generates a study plan delivered through a built-in lightweight LMS.</p>
+  <p class="kv"><b>Earlier engineering</b> — File malware-scanning service; FortiGate VPN deployment on AWS.</p>
+
+  <h2>Education &amp; Certifications</h2>
+  <div class="edu"><span><strong>B.Tech, Computer Science</strong> — Lovely Professional University, Punjab, India</span><span class="muted">2016 – 2020</span></div>
+  <div class="edu"><span><strong>AWS Certified Solutions Architect – Associate</strong></span><span class="muted">certified</span></div>
+  <div class="edu"><span><strong>Certified Kubernetes Administrator (CKA)</strong></span><span class="muted">in progress</span></div>
+
+  <h2>Key Achievements</h2>
+  <ul>
+    <li>Sustained <strong>~99.7% availability</strong> via SLO instrumentation, error budgets, and proactive capacity planning.</li>
+    <li>Achieved <strong>zero audit exceptions</strong> enforcing SOC2/CIS across 20+ AWS accounts through automated controls.</li>
+    <li>Surfaced <strong>$150K+</strong> in annual cost savings through FinOps practices and automated cost attribution.</li>
+    <li>Reduced security-remediation cycles <strong>~60%</strong> and MTTD <strong>~45%</strong> through automated scanning and incident tooling.</li>
+  </ul>
+
+  <p class="kv" style="margin-top:11pt"><b>Languages:</b> English (fluent), Hindi (native) &nbsp;·&nbsp; 6+ years in remote-first distributed teams</p>
+</main>
+
+</body>
+</html>
