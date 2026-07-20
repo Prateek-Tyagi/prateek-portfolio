@@ -1,0 +1,11 @@
+{
+  "name": "Prateek Rajvats",
+  "short_name": "Prateek",
+  "icons": [
+    { "src": "/assets/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/assets/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "theme_color": "#0d766c",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}
