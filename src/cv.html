@@ -10,9 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#0d766c;
-    --accent-deep:#0a5951;
-    --tint:#e4f1ef;
+    --accent:#0f766e;
+    --accent-deep:#0b5750;
+    --tint:#e6f0ef;
     --ink:#14201f;
     --muted:#5c6a6b;
     --rule:#dde4e2;
@@ -39,11 +39,14 @@
   .nav-links a{text-decoration:none;color:var(--muted);font-size:13.5px;font-weight:500}
   .nav-links a:hover{color:var(--ink)}
   .nav-links a.current{color:var(--accent-deep);font-weight:600}
-  .btn-pdf{font-family:var(--body);font-size:13px;font-weight:600;color:#fff;background:var(--accent);border:0;border-radius:7px;
-    padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;text-decoration:none}
-  .btn-pdf:hover{background:var(--accent-deep);color:#fff}
-  .btn-pdf svg{width:14px;height:14px}
-  @media (max-width:640px){.nav-links a:not(.current){display:none}}
+  /* Match Joseph Coleman's Download PDF nav CTA (site.css .nav-link.is-page.current) */
+  .nav-link.is-page{
+    color:var(--accent-deep);border:1px solid var(--accent);border-radius:6px;
+    padding:6px 12px;font-weight:500}
+  .nav-link.is-page:hover{background:var(--tint);color:var(--accent-deep)}
+  .nav-link.is-page.current{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .nav-link.is-page.current:hover{background:var(--accent);color:#fff}
+  @media (max-width:640px){.nav-links a:not(.current):not(.is-page){display:none}}
 
   /* ---- A4 sheet (screen) ---- */
   .sheet{ max-width:210mm; margin:0 auto; padding:12mm 14mm; background:var(--paper); }
@@ -120,7 +123,7 @@
       <li><a href="index.html#work">Work</a></li>
       <li><a href="index.html#skills">Skills</a></li>
       <li><a class="current" href="cv.html">CV</a></li>
-      <li><a class="btn-pdf" href="cv.pdf" download="Prateek-Rajvats-CV.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Download PDF</a></li>
+      <li><a class="nav-link is-page current" href="cv.pdf" download="Prateek-Rajvats-CV.pdf">Download PDF</a></li>
     </ul>
   </div>
 </header>
