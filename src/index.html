@@ -4,16 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Prateek Rajvats — Platform & Reliability Engineer</title>
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <meta name="theme-color" content="#0d766c">
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0d766c" />
     <meta
       name="description"
       content="Platform & Reliability Engineer. Observability, reliability, and compliance-as-code on multi-account AWS. Terraform, ECS Fargate, Datadog, OpenTelemetry."
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://prateek.co.uk/" />
+    <meta
+      property="og:title"
+      content="Prateek Rajvats — Platform & Reliability Engineer"
+    />
+    <meta
+      property="og:description"
+      content="Secure, observable multi-account AWS platforms — reliability as code. Terraform, ECS Fargate, Datadog, compliance-as-code."
+    />
+    <meta property="og:image" content="https://prateek.co.uk/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://prateek.co.uk/og.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -1014,7 +1043,7 @@
 
     <main id="top">
       <!-- HERO -->
-      <header class="hero" data-sev="1">
+      <header class="hero" data-sev="0">
         <div class="stage" aria-hidden="true">
           <div class="prop pos-tl fx-left" data-min="2">
             <div class="alert-card">
@@ -1080,9 +1109,9 @@
           </div>
           <div class="proof">
             <span class="p"><b>6+ yrs</b> platform / devops</span>
-            <span class="p"><b>30+ teams</b> on the platform</span>
-            <span class="p"><b>0</b> long-lived CI keys</span>
-            <span class="p"><b>SOC2 / CIS</b> as code</span>
+            <span class="p"><b>~99.7%</b> availability (SLOs)</span>
+            <span class="p"><b>20+</b> AWS accounts</span>
+            <span class="p"><b>SOC2 / CIS</b> · 0 exceptions</span>
           </div>
         </div>
 
@@ -1090,7 +1119,7 @@
           <div class="tone-read">
             severity
             <span class="sev" id="sevread"
-              ><span class="d"></span>SEV-3 · ELEVATED</span
+              ><span class="d"></span>SEV-4 · ALL NOMINAL</span
             >
           </div>
           <input
@@ -1098,7 +1127,7 @@
             id="tone"
             min="0"
             max="100"
-            value="34"
+            value="0"
             aria-label="How hard should I sell? Drag to escalate."
           />
           <div class="tone-labels">
@@ -1276,9 +1305,20 @@
               <h3>This page, as infrastructure</h3>
               <p>
                 One self-contained static file — no build step, no framework.
-                Designed to ship on S3 + CloudFront + ACM + Route 53,
-                Terraform-provisioned, deployed by GitHub Actions via OIDC with
-                no long-lived AWS keys. Practising what the day job preaches.
+                Runs on S3 + CloudFront + ACM + Route 53, Terraform-provisioned,
+                deployed by GitHub Actions via OIDC with no long-lived AWS keys.
+                Practising what the day job preaches.
+                <a
+                  href="https://github.com/Prateek-Tyagi/prateek-portfolio"
+                  target="_blank"
+                  rel="noopener"
+                  style="
+                    color: var(--accent-deep);
+                    font-weight: 600;
+                    text-decoration: none;
+                  "
+                  >Source on GitHub →</a
+                >
               </p>
               <div class="stackrow">
                 <span>Terraform</span><span>S3 / CloudFront</span
@@ -1308,12 +1348,16 @@
             <div class="skill-group">
               <h3>Observability</h3>
               <p>
-                Datadog, OpenTelemetry, monitor-as-code, incident management
+                Datadog, Grafana, OpenTelemetry, monitor-as-code, incident
+                management
               </p>
             </div>
             <div class="skill-group">
               <h3>CI/CD</h3>
-              <p>Bitbucket Pipelines, GitHub Actions, OIDC-based delivery</p>
+              <p>
+                Bitbucket Pipelines, GitHub Actions, OIDC-based delivery, AWS
+                CodePipeline and CodeBuild
+              </p>
             </div>
             <div class="skill-group">
               <h3>Languages &amp; scripting</h3>
@@ -1343,7 +1387,7 @@
               margin-bottom: 22px;
             "
           >
-            Open to senior SRE, platform, and observability roles — UK
+            Open to senior SRE, platform, and observability roles — UK/Europe
             relocation with sponsorship, or remote. Happy to walk through any of
             the work above.
           </p>
@@ -1372,8 +1416,8 @@
     <footer class="site-footer">
       <div class="container">
         Prateek Rajvats · Platform &amp; Reliability Engineer · one
-        self-contained static page, designed to ship on S3 + CloudFront via
-        Terraform + GitHub OIDC.
+        self-contained static page, runs on S3 + CloudFront via Terraform +
+        GitHub OIDC.
       </div>
     </footer>
 

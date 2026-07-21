@@ -57,6 +57,12 @@ jobs:
             --include "*.png" \
             --cache-control "public, max-age=86400"
 
+          # Social preview image at bucket root (og:image → /og.png).
+          # Source file lives at assets/og.png; also synced under /assets/ above.
+          aws s3 cp assets/og.png "s3://${{ secrets.S3_BUCKET }}/og.png" \
+            --cache-control "public, max-age=86400" \
+            --content-type "image/png"
+
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
