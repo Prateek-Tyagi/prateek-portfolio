@@ -47,6 +47,8 @@ Comfortable across the full surface area: IaC, CI/CD, observability, container s
 - Migrated 300+ users from per-account IAM to AWS Identity Center with custom permission sets that standardized access control across the organization.
 - Instrumented SLOs/SLIs with error-budget policies, helping sustain ~99.7% availability across critical services.
 
+<div class="page-break"></div>
+
 ### Platform Engineer [Oct 2022 – Apr 2025]{.when}
 
 **Safeguard Global** · Remote, India
@@ -58,19 +60,13 @@ Comfortable across the full surface area: IaC, CI/CD, observability, container s
 - Built an end-to-end incident system (Datadog → OpsGenie) with custom routing, escalation, and on-call rotations, reducing MTTD ~45%.
 - Stood up a FinOps cost-visibility platform with automated tagging taxonomy and cross-account aggregation, surfacing $150K+ in annual savings via RI planning and rightsizing.
 
-### Senior DevOps Engineer [Apr 2022 – Aug 2022]{.when}
+### DevOps Engineer → Senior DevOps Engineer [Jun 2020 – Aug 2022]{.when}
 
-**Solytics Partners** · Remote, India
+**Solytics Partners** · Pune → Remote, India
 
 - Promoted to lead container-orchestration design on ECS Fargate running 50+ microservices with horizontal autoscaling and cross-AZ fault tolerance.
-- Implemented immutable deployment pipelines with artifact versioning, compressing release-cycle time ~75%.
-
-### DevOps Engineer [Jun 2020 – Mar 2022]{.when}
-
-**Solytics Partners** · Pune, India
-
 - Provisioned Terraform-managed AWS environments for 20+ services with VPC isolation, security-group hardening, and least-privilege IAM roles.
-- Achieved a 95% deployment success rate through automated integration testing, canary releases, and automated rollback.
+- Implemented immutable deployment pipelines with artifact versioning and a 95% deployment success rate via automated integration testing, canary releases, and rollback — compressing release-cycle time ~75%.
 - Drove ~30% infrastructure cost reduction via compute rightsizing, reserved-instance procurement, and architectural optimization.
 
 ## Selected Projects
@@ -90,3 +86,5 @@ AWS Certified Solutions Architect – Associate · CKA (Certified Kubernetes Adm
 - Achieved zero audit exceptions enforcing SOC2 / CIS across 20+ AWS accounts through automated controls.
 - Surfaced $150K+ in annual cost savings through FinOps practices and automated cost attribution.
 - Reduced security-remediation cycles ~60% and MTTD ~45% through automated scanning and incident tooling.
+
+**Languages:** English (fluent), Hindi (native) · 6+ years in remote-first distributed teams

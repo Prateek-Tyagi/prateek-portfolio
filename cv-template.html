@@ -18,11 +18,11 @@
     --body:'Inter',-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif;
     --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
   }
-  /* Tight page margins so full content fits two A4 pages without cutting copy */
-  @page{ size:A4; margin:10mm 12mm; }
+  @page{ size:A4; margin:11mm 13mm; }
   *{box-sizing:border-box}
-  html{ font-family:var(--body); color:var(--ink); line-height:1.32; -webkit-font-smoothing:antialiased; }
+  html{ font-family:var(--body); color:var(--ink); line-height:1.38; -webkit-font-smoothing:antialiased; }
   body{ margin:0; }
+  .page-break{ break-before:page; page-break-before:always; height:0; margin:0; padding:0; border:0; }
 
   /* nav (screen only) */
   .site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);display:flex;align-items:center;
@@ -44,33 +44,34 @@
   .nav-link.is-page.current:hover{background:var(--accent);color:#fff}
   @media (max-width:640px){.nav-links a:not(.current):not(.is-page){display:none}}
 
-  /* A4 sheet — dense on screen and print */
-  .sheet{ max-width:210mm; margin:0 auto; padding:10mm 12mm; background:var(--paper); }
+  /* A4 sheet */
+  .sheet{ max-width:210mm; margin:0 auto; padding:11mm 13mm; background:var(--paper); }
   @media screen{
     html{ background:var(--bg); }
     body{ padding:calc(var(--nav-h) + 26px) 14px 40px; }
     .sheet{ min-height:297mm; border-radius:3px; box-shadow:0 1px 2px rgba(0,0,0,.06),0 14px 38px rgba(20,40,50,.13); }
+    .page-break{ break-before:auto; page-break-before:auto; margin:14pt 0; border-top:1px dashed var(--rule); }
   }
 
   /* masthead */
-  .name{ font-family:var(--disp); font-size:20pt; font-weight:600; text-align:center; margin:0 0 1pt; letter-spacing:.01em; }
-  .subtitle{ text-align:center; font-family:var(--mono); font-size:8pt; font-weight:600; text-transform:uppercase; letter-spacing:.16em; color:var(--accent); margin:0 0 5pt; }
-  .contact{ text-align:center; color:var(--muted); font-size:8.2pt; line-height:1.45; margin:0 0 2pt; }
+  .name{ font-family:var(--disp); font-size:22pt; font-weight:600; text-align:center; margin:0 0 2pt; letter-spacing:.01em; }
+  .subtitle{ text-align:center; font-family:var(--mono); font-size:8.5pt; font-weight:600; text-transform:uppercase; letter-spacing:.16em; color:var(--accent); margin:0 0 6pt; }
+  .contact{ text-align:center; color:var(--muted); font-size:8.8pt; line-height:1.5; margin:0 0 3pt; }
   .contact a{ color:var(--muted); text-decoration:none; } .contact .sep{ margin:0 4pt; color:var(--rule); }
-  .rule-top{ border:none; border-top:1px solid var(--rule); margin:6pt 0 0; }
+  .rule-top{ border:none; border-top:1px solid var(--rule); margin:8pt 0 0; }
 
-  /* pandoc body: sections + entries — keep all content, pack vertically */
-  .sheet h2{ font-size:8.5pt; font-weight:700; text-transform:uppercase; letter-spacing:.11em; color:var(--accent);
-    border-bottom:1.25px solid var(--accent); padding-bottom:2pt; margin:8pt 0 4pt; }
-  .sheet h3{ font-family:var(--disp); font-size:10pt; font-weight:600; color:var(--ink); margin:5pt 0 0;
+  /* pandoc body — ~9.2pt body, balanced two-page layout */
+  .sheet h2{ font-size:9pt; font-weight:700; text-transform:uppercase; letter-spacing:.11em; color:var(--accent);
+    border-bottom:1.25px solid var(--accent); padding-bottom:2pt; margin:11pt 0 5pt; }
+  .sheet h3{ font-family:var(--disp); font-size:10.5pt; font-weight:600; color:var(--ink); margin:7pt 0 0;
     display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
-  .sheet h3 .when{ font-family:var(--mono); font-size:8pt; font-weight:500; color:var(--muted); white-space:nowrap; }
-  .sheet h3 + p{ color:var(--muted); font-size:8.5pt; margin:0 0 2pt; }
+  .sheet h3 .when{ font-family:var(--mono); font-size:8.5pt; font-weight:500; color:var(--muted); white-space:nowrap; }
+  .sheet h3 + p{ color:var(--muted); font-size:9pt; margin:1pt 0 3pt; }
   .sheet h3 + p strong{ color:var(--accent-deep); font-weight:600; }
-  .sheet p{ font-size:8.7pt; margin:1.5pt 0; }
-  .sheet ul{ margin:1pt 0 3pt; padding-left:12pt; list-style:none; }
-  .sheet li{ position:relative; margin-bottom:1.2pt; padding-left:3pt; font-size:8.7pt; }
-  .sheet li::before{ content:""; position:absolute; left:-7pt; top:4pt; width:3px; height:3px; background:var(--accent); border-radius:50%; }
+  .sheet p{ font-size:9.2pt; margin:2pt 0; }
+  .sheet ul{ margin:2pt 0 5pt; padding-left:13pt; list-style:none; }
+  .sheet li{ position:relative; margin-bottom:2pt; padding-left:3pt; font-size:9.2pt; }
+  .sheet li::before{ content:""; position:absolute; left:-7pt; top:4.5pt; width:3.5px; height:3.5px; background:var(--accent); border-radius:50%; }
   .sheet strong{ color:var(--ink); font-weight:600; }
   .sheet h2 + p strong, .sheet h2 ~ p > strong:first-child{ color:var(--accent-deep); }
 
@@ -87,9 +88,8 @@
     html,body{ padding:0; margin:0; background:#fff; }
     .sheet{ box-shadow:none; border-radius:0; margin:0; padding:0; max-width:none; min-height:0 !important; }
     a{ color:var(--accent-deep); text-decoration:none; }
-    /* Never force a whole job block to the next page (causes empty first-page gaps) */
-    .sheet li, .sheet h2, .sheet h3, .sheet h3 + p{ break-inside:avoid; page-break-inside:avoid; }
-    .sheet h2{ break-after:avoid; page-break-after:avoid; }
+    /* Avoid orphaned headings only — never avoid on li (creates empty middle pages). */
+    .sheet h2, .sheet h3{ break-after:avoid; page-break-after:avoid; }
   }
 </style>
 </head>
