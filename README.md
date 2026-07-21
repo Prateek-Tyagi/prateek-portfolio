@@ -8,7 +8,10 @@ My personal site — a single self-contained `src/index.html` (no build step, no
 │   ├── index.html                # the whole site (HTML + CSS + JS inline)
 │   ├── cv.html                   # web CV (A4 sheet, matches the site theme)
 │   └── cv.pdf                    # downloadable PDF (linked from Download PDF)
-├── .github/workflows/deploy.yml  # OIDC deploy: sync src/ to S3 + invalidate CloudFront
+├── assets/                       # favicons + og.png (synced separately)
+├── .github/workflows/
+│   ├── ci.yml                    # secret scan (gitleaks) on PR / main
+│   └── deploy.yml                # OIDC deploy: sync → S3 + CloudFront invalidation
 └── terraform/
     ├── bootstrap/                # one-time: creates the S3 remote-state bucket
     ├── functions/                # CloudFront Functions (301 redirects)
@@ -101,8 +104,16 @@ gh secret set CLOUDFRONT_DISTRIBUTION_ID -b "$(terraform output -raw cloudfront_
 ### 5. Deploy
 
 Push to `main`. The workflow assumes the OIDC role, `aws s3 sync`s the site files
-(only `*.html` + `assets/**` — never `terraform/`, `.github/`, or `.git/`) to S3,
-and invalidates CloudFront `"/*"`.
+(only `*.html` + `*.pdf` from `src/`, plus root favicon/manifest and `assets/**` —
+never `terraform/`, `.github/`, or `.git/`) to S3, and invalidates CloudFront `"/*"`.
+
+## CI pipeline
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs **Gitleaks** on every PR and push to `main` — secret scanning before merge, same idea as a Bitbucket detect-secrets / gitleaks step.
+
+**Why a separate workflow?** `ci.yml` gives PR feedback without AWS credentials. `deploy.yml` stays least-privilege (S3 + CloudFront only). Require the **CI** check in branch protection on `main` so a failing scan blocks merge the same way a failing Bitbucket step blocks the pipeline.
+
+Sonar, SBOM, and vuln-scan jobs are **not** enabled here: no Sonar server, and an SBOM with nothing to enforce or audit it is just noise. Re-add them when there is a real consumer.
 
 ## Notes
 

@@ -1,0 +1,50 @@
+# =============================================================================
+# CI — secret scanning
+# =============================================================================
+# Best-practice split (same idea as Bitbucket Pipelines "scan first, deploy later"):
+#
+#   ci.yml      → gitleaks (this file)
+#   deploy.yml  → OIDC → S3 sync → CloudFront invalidation
+#
+# Why not inside deploy.yml?
+#   • PRs get feedback without deploying
+#   • Deploy stays least-privilege (OIDC role only needs S3 + CloudFront)
+#   • Branch protection can require "CI" to pass before merge to main
+#
+# Intentionally omitted for now (no consumer / no Sonar server):
+#   • SBOM generation — useful only when something enforces or audits it
+#   • SonarCloud / SonarQube — needs a server + token
+#   • Trivy / Xray-style vuln gates — add when there are real deps/images to scan
+# =============================================================================
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Catches accidental AWS keys, tokens, etc. before they land on main.
+  # Closest Bitbucket analogue: a gitleaks / detect-secrets pipe step.
+  gitleaks:
+    name: Gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
