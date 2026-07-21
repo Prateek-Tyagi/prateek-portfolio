@@ -8,7 +8,10 @@ My personal site — a single self-contained `src/index.html` (no build step, no
 │   ├── index.html                # the whole site (HTML + CSS + JS inline)
 │   ├── cv.html                   # web CV (A4 sheet, matches the site theme)
 │   └── cv.pdf                    # downloadable PDF (linked from Download PDF)
-├── .github/workflows/deploy.yml  # OIDC deploy: sync src/ to S3 + invalidate CloudFront
+├── assets/                       # favicons + og.png (synced separately)
+├── .github/workflows/
+│   ├── ci.yml                    # REFERENCE: gitleaks, Sonar, SBOM, vuln scan
+│   └── deploy.yml                # OIDC deploy: sync → S3 + CloudFront invalidation
 └── terraform/
     ├── bootstrap/                # one-time: creates the S3 remote-state bucket
     ├── functions/                # CloudFront Functions (301 redirects)
@@ -101,8 +104,23 @@ gh secret set CLOUDFRONT_DISTRIBUTION_ID -b "$(terraform output -raw cloudfront_
 ### 5. Deploy
 
 Push to `main`. The workflow assumes the OIDC role, `aws s3 sync`s the site files
-(only `*.html` + `assets/**` — never `terraform/`, `.github/`, or `.git/`) to S3,
-and invalidates CloudFront `"/*"`.
+(only `*.html` + `*.pdf` from `src/`, plus root favicon/manifest and `assets/**` —
+never `terraform/`, `.github/`, or `.git/`) to S3, and invalidates CloudFront `"/*"`.
+
+## CI pipeline (reference)
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) is a **best-practice reference** for how platform work I do in Bitbucket Pipelines maps onto GitHub Actions — **scan on PR, deploy separately**.
+
+| Job | What it does | Bitbucket analogue |
+| --- | --- | --- |
+| **Gitleaks** | Secret scanning on every PR / push to `main` | `gitleaks` / detect-secrets pipe |
+| **SonarCloud** | Optional quality gate (`ENABLE_SONAR=true` + `SONAR_TOKEN`) | `sonarcloud-scan` + quality-gate pipes |
+| **SBOM** | CycloneDX SBOM uploaded as a workflow artifact | SBOM generation step in the pipeline |
+| **Vulnerability scan** | Trivy filesystem scan; fails on CRITICAL/HIGH | Xray / Trivy policy gate |
+
+**Why two workflows?** `ci.yml` gives PR feedback and stays free of AWS credentials. `deploy.yml` keeps the OIDC role least-privilege (S3 + CloudFront only). Require the **CI** check in branch protection on `main` so merges are gated the same way a failing Bitbucket step blocks the pipeline.
+
+To turn Sonar on: Settings → Secrets and variables → Actions → set variable `ENABLE_SONAR=true` and secret `SONAR_TOKEN` (optionally `SONAR_PROJECT_KEY` / `SONAR_ORGANIZATION`).
 
 ## Notes
 

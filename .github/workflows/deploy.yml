@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - "src/**"
+      - "cv.md"
+      - "cv-template.html"
+      - "build-cv.sh"
       - "favicon.ico"
       - "site.webmanifest"
       - "assets/**"
@@ -33,8 +36,17 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # src/ = HTML + PDF. favicon.ico + site.webmanifest at repo root; PNG
-      # icons under assets/. Extra syncs omit --delete so HTML/PDF stay intact.
+      # cv.html + cv.pdf are GENERATED from cv.md (never committed).
+      - name: Build CV from cv.md
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y pandoc libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf-2.0-0 libffi-dev
+          python3 -m pip install --upgrade weasyprint
+          chmod +x build-cv.sh && ./build-cv.sh
+
+      # src/ = site HTML (except generated CV). Root cv.html/cv.pdf from the
+      # build step; favicon.ico + site.webmanifest + assets/ synced separately.
+      # Extra syncs omit --delete so earlier uploads stay intact.
       - name: Sync site to S3
         run: |
           aws s3 sync src/ "s3://${{ secrets.S3_BUCKET }}" \
@@ -44,13 +56,14 @@ jobs:
             --include "*.pdf" \
             --cache-control "public, max-age=300, must-revalidate"
 
-          # Root favicon.ico + manifest, and PNG icons under assets/
-          # (no --delete — must not wipe HTML/PDF from the earlier sync).
+          # Generated CV at repo root → bucket root (/cv.html, /cv.pdf).
           aws s3 sync . "s3://${{ secrets.S3_BUCKET }}" \
             --exclude "*" \
+            --include "cv.html" \
+            --include "cv.pdf" \
             --include "favicon.ico" \
             --include "site.webmanifest" \
-            --cache-control "public, max-age=86400"
+            --cache-control "public, max-age=300, must-revalidate"
 
           aws s3 sync assets/ "s3://${{ secrets.S3_BUCKET }}/assets" \
             --exclude "*" \
@@ -58,7 +71,6 @@ jobs:
             --cache-control "public, max-age=86400"
 
           # Social preview image at bucket root (og:image → /og.png).
-          # Source file lives at assets/og.png; also synced under /assets/ above.
           aws s3 cp assets/og.png "s3://${{ secrets.S3_BUCKET }}/og.png" \
             --cache-control "public, max-age=86400" \
             --content-type "image/png"

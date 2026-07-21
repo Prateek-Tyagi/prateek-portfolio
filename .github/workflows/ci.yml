@@ -1,0 +1,124 @@
+# =============================================================================
+# CI — security & quality gates (REFERENCE)
+# =============================================================================
+# Best-practice split for GitHub Actions (same idea as Bitbucket Pipelines
+# "scan first, deploy later"):
+#
+#   ci.yml      → gitleaks, Sonar, SBOM, vulnerability scan  (this file)
+#   deploy.yml  → OIDC → S3 sync → CloudFront invalidation   (unchanged)
+#
+# Why not put these steps inside deploy.yml?
+#   • PRs get fast feedback without deploying
+#   • Deploy stays least-privilege (OIDC role only needs S3 + CloudFront)
+#   • Branch protection can require "CI" to pass before merge to main
+#
+# Bitbucket → GitHub Actions cheat-sheet:
+#   bitbucket-pipelines.yml  ≈  .github/workflows/*.yml
+#   pipelines / steps        ≈  on: + jobs: + steps:
+#   secured variables        ≈  repo Secrets / Variables
+#   parallel steps           ≈  separate jobs (run in parallel by default)
+#   step that fails the pipe ≈  exit-code: "1" / a failing step
+#
+# Optional SonarCloud: set repo Variable ENABLE_SONAR=true and Secret
+# SONAR_TOKEN (Settings → Secrets and variables → Actions).
+# =============================================================================
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+  # Uncomment if you upload SARIF to GitHub Code Scanning:
+  # security-events: write
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---- 1. Secrets scanning (gitleaks) ---------------------------------------
+  # Catches accidental AWS keys, tokens, etc. before they land on main.
+  # Closest Bitbucket analogue: a gitleaks / detect-secrets pipe step.
+  gitleaks:
+    name: Gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ---- 2. SonarCloud (optional quality gate) --------------------------------
+  # Static analysis / quality gate. Skipped until ENABLE_SONAR=true so this
+  # reference workflow stays green without a SonarCloud project.
+  # Closest Bitbucket analogue: sonarcloud-scan pipe + quality-gate pipe.
+  sonar:
+    name: SonarCloud
+    if: ${{ vars.ENABLE_SONAR == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v3
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Override via repo Variables SONAR_PROJECT_KEY / SONAR_ORGANIZATION if needed.
+          args: >
+            -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
+            -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
+            -Dsonar.sources=.
+            -Dsonar.exclusions=**/node_modules/**,**/.terraform/**,**/cv.pdf,**/assets/**
+
+  # ---- 3. SBOM generation ---------------------------------------------------
+  # Software bill of materials (CycloneDX). Upload as a workflow artifact —
+  # same idea as generating an SBOM in Bitbucket and storing it for audit.
+  sbom:
+    name: SBOM
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate SBOM (CycloneDX)
+        uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: cyclonedx-json
+          artifact-name: sbom-cyclonedx
+          upload-artifact: true
+
+  # ---- 4. Vulnerability scanning (filesystem) -------------------------------
+  # Trivy FS scan ≈ Bitbucket/JFrog Xray-style policy gate on the workspace.
+  # Fails the job on CRITICAL/HIGH so the check is merge-blocking when required.
+  vulns:
+    name: Vulnerability scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Trivy filesystem scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+          ignore-unfixed: true

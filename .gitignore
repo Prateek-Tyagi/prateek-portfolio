@@ -14,6 +14,10 @@ override.tf.json
 backend.hcl
 !backend.hcl.example
 
+# Generated CV (built from cv.md via build-cv.sh — do not hand-edit)
+cv.html
+cv.pdf
+
 # OS / editor
 .DS_Store
 .idea/
