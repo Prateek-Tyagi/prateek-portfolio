@@ -10,7 +10,7 @@ My personal site — a single self-contained `src/index.html` (no build step, no
 │   └── cv.pdf                    # downloadable PDF (linked from Download PDF)
 ├── assets/                       # favicons + og.png (synced separately)
 ├── .github/workflows/
-│   ├── ci.yml                    # REFERENCE: gitleaks, Sonar, SBOM, vuln scan
+│   ├── ci.yml                    # secret scan (gitleaks) on PR / main
 │   └── deploy.yml                # OIDC deploy: sync → S3 + CloudFront invalidation
 └── terraform/
     ├── bootstrap/                # one-time: creates the S3 remote-state bucket
@@ -107,20 +107,13 @@ Push to `main`. The workflow assumes the OIDC role, `aws s3 sync`s the site file
 (only `*.html` + `*.pdf` from `src/`, plus root favicon/manifest and `assets/**` —
 never `terraform/`, `.github/`, or `.git/`) to S3, and invalidates CloudFront `"/*"`.
 
-## CI pipeline (reference)
+## CI pipeline
 
-[`.github/workflows/ci.yml`](.github/workflows/ci.yml) is a **best-practice reference** for how platform work I do in Bitbucket Pipelines maps onto GitHub Actions — **scan on PR, deploy separately**.
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs **Gitleaks** on every PR and push to `main` — secret scanning before merge, same idea as a Bitbucket detect-secrets / gitleaks step.
 
-| Job | What it does | Bitbucket analogue |
-| --- | --- | --- |
-| **Gitleaks** | Secret scanning on every PR / push to `main` | `gitleaks` / detect-secrets pipe |
-| **SonarCloud** | Optional quality gate (`ENABLE_SONAR=true` + `SONAR_TOKEN`) | `sonarcloud-scan` + quality-gate pipes |
-| **SBOM** | CycloneDX SBOM uploaded as a workflow artifact | SBOM generation step in the pipeline |
-| **Vulnerability scan** | Trivy filesystem scan; fails on CRITICAL/HIGH | Xray / Trivy policy gate |
+**Why a separate workflow?** `ci.yml` gives PR feedback without AWS credentials. `deploy.yml` stays least-privilege (S3 + CloudFront only). Require the **CI** check in branch protection on `main` so a failing scan blocks merge the same way a failing Bitbucket step blocks the pipeline.
 
-**Why two workflows?** `ci.yml` gives PR feedback and stays free of AWS credentials. `deploy.yml` keeps the OIDC role least-privilege (S3 + CloudFront only). Require the **CI** check in branch protection on `main` so merges are gated the same way a failing Bitbucket step blocks the pipeline.
-
-To turn Sonar on: Settings → Secrets and variables → Actions → set variable `ENABLE_SONAR=true` and secret `SONAR_TOKEN` (optionally `SONAR_PROJECT_KEY` / `SONAR_ORGANIZATION`).
+Sonar, SBOM, and vuln-scan jobs are **not** enabled here: no Sonar server, and an SBOM with nothing to enforce or audit it is just noise. Re-add them when there is a real consumer.
 
 ## Notes
 
