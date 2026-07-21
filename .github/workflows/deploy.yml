@@ -41,7 +41,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y pandoc libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf-2.0-0 libffi-dev
-          python3 -m pip install --upgrade weasyprint
+          python3 -m pip install "weasyprint==69.0"
           chmod +x build-cv.sh && ./build-cv.sh
 
       # src/ = site HTML (except generated CV). Root cv.html/cv.pdf from the
