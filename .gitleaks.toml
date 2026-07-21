@@ -1,0 +1,6 @@
+[allowlist]
+description = "Cloudflare Web Analytics beacon token (public, in-page identifier)"
+paths = [
+  '''index\.html''',
+  '''cv-template\.html''',
+]
