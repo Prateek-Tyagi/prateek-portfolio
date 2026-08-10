@@ -23,7 +23,7 @@
       href="/assets/apple-touch-icon.png"
     />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#0d766c" />
+    <meta name="theme-color" content="#202124" />
     <meta
       name="description"
       content="Platform & Reliability Engineer. Observability, reliability, and compliance-as-code on multi-account AWS. Terraform, ECS Fargate, Datadog, OpenTelemetry."
@@ -43,28 +43,25 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://prateek.co.uk/og.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
     <style>
       :root {
-        --accent: #0d766c;
-        --accent-deep: #0a5951;
-        --tint: #e4f1ef;
-        --amber: #d98a1f;
-        --hot: #d6402a;
-        --ink: #14201f;
-        --muted: #5c6a6b;
-        --rule: #e2e8e6;
+        --accent: #245ea8;
+        --accent-deep: #174780;
+        --tint: #eef3f9;
+        --amber: #9a5d08;
+        --hot: #b3261e;
+        --ink: #202124;
+        --muted: #55585c;
+        --rule: #b9bdc1;
+        --rule-soft: #dfe2e5;
         --bg: #ffffff;
-        --bg-alt: #f4f7f6;
-        --nav-h: 64px;
-        --disp: "Sora", system-ui, sans-serif;
-        --body: "Inter", system-ui, sans-serif;
-        --mono: "JetBrains Mono", ui-monospace, monospace;
+        --bg-alt: #e8eaed;
+        --nav-h: 48px;
+        --body:
+          Arial, "Helvetica Neue", Helvetica, -apple-system, BlinkMacSystemFont,
+          sans-serif;
+        --disp: var(--body);
+        --mono: var(--body);
       }
       * {
         box-sizing: border-box;
@@ -82,12 +79,12 @@
         margin: 0;
         font-family: var(--body);
         color: var(--ink);
-        line-height: 1.6;
+        line-height: 1.45;
         background: var(--bg);
         -webkit-font-smoothing: antialiased;
       }
       a {
-        color: var(--accent-deep);
+        color: var(--accent);
       }
 
       /* ---- nav ---- */
@@ -99,54 +96,34 @@
         height: var(--nav-h);
         display: flex;
         align-items: center;
-        background: rgba(255, 255, 255, 0.86);
-        backdrop-filter: saturate(140%) blur(10px);
-        -webkit-backdrop-filter: saturate(140%) blur(10px);
+        background: rgba(255, 255, 255, 0.97);
         border-bottom: 1px solid var(--rule);
         z-index: 100;
       }
       .nav-inner {
         width: 100%;
-        max-width: 1040px;
+        max-width: 980px;
         margin: 0 auto;
-        padding: s0 24px;
+        padding: 0 24px;
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
       .nav-brand {
         font-family: var(--mono);
-        font-weight: 600;
-        font-size: 15px;
+        font-weight: 700;
+        font-size: 14px;
         color: var(--ink);
         text-decoration: none;
         display: flex;
         align-items: center;
-        gap: 9px;
+        gap: 8px;
       }
       .nav-brand .dot {
-        width: 8px;
-        height: 8px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 0 0 rgba(13, 118, 108, 0.5);
-        animation: navpulse 2.4s ease-out infinite;
-      }
-      @keyframes navpulse {
-        0% {
-          box-shadow: 0 0 0 0 rgba(13, 118, 108, 0.5);
-        }
-        70% {
-          box-shadow: 0 0 0 6px rgba(13, 118, 108, 0);
-        }
-        100% {
-          box-shadow: 0 0 0 0 rgba(13, 118, 108, 0);
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .nav-brand .dot {
-          animation: none;
-        }
+        background: var(--ink);
       }
       .nav-brand span {
         color: var(--muted);
@@ -154,7 +131,7 @@
       .nav-links {
         display: flex;
         align-items: center;
-        gap: 24px;
+        gap: 20px;
         list-style: none;
         margin: 0;
         padding: 0;
@@ -162,10 +139,10 @@
       .nav-link {
         text-decoration: none;
         color: var(--muted);
-        font-size: 14px;
-        font-weight: 500;
-        padding: 6px 0;
-        border-bottom: 2px solid transparent;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 5px 0;
+        border-bottom: 1px solid transparent;
         transition:
           color 0.15s,
           border-color 0.15s;
@@ -174,13 +151,16 @@
         color: var(--ink);
       }
       .nav-link.cta {
-        color: var(--accent-deep);
-        border: 1px solid var(--accent);
-        border-radius: 6px;
-        padding: 6px 12px;
+        color: #fff;
+        background: var(--ink);
+        border: 1px solid var(--ink);
+        border-radius: 4px;
+        padding: 7px 12px;
       }
       .nav-link.cta:hover {
-        background: var(--tint);
+        color: #fff;
+        background: #3c4043;
+        border-color: #3c4043;
       }
       .nav-toggle {
         display: none;
@@ -200,31 +180,32 @@
 
       /* ---- layout ---- */
       .section {
-        padding: 76px 0;
+        padding: 58px 0;
       }
       .section-alt {
         background: var(--bg-alt);
       }
       .container {
-        max-width: 1040px;
+        max-width: 980px;
         margin: 0 auto;
         padding: 0 24px;
       }
       .kicker {
-        font-family: var(--mono);
         text-transform: uppercase;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.04em;
         font-size: 12px;
-        font-weight: 600;
-        color: var(--accent);
-        margin: 0 0 10px;
+        font-weight: 700;
+        color: var(--ink);
+        margin: 0 0 6px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid var(--rule);
       }
       .section h2 {
-        font-family: var(--disp);
-        font-size: clamp(24px, 3.4vw, 30px);
+        font-size: clamp(20px, 2.6vw, 26px);
         font-weight: 700;
-        margin: 0 0 28px;
-        letter-spacing: -0.01em;
+        margin: 0 0 20px;
+        letter-spacing: -0.015em;
+        line-height: 1.2;
       }
 
       /* ---- hero ---- */
@@ -237,27 +218,27 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        text-align: center;
-        padding: calc(var(--nav-h) + 40px) 24px 128px;
+        text-align: left;
+        padding: calc(var(--nav-h) + 52px) 24px 120px;
         border-bottom: 1px solid var(--rule);
         overflow: hidden;
         transition: background 0.45s ease;
         background:
           radial-gradient(
             85% 120% at 50% -15%,
-            rgba(13, 118, 108, calc(0.05 + var(--level) * 0.26)),
+            rgba(36, 94, 168, calc(0.035 + var(--level) * 0.12)),
             transparent 65%
           ),
-          linear-gradient(180deg, #fbfdfd, var(--bg));
+          linear-gradient(180deg, #f8f9fa, var(--bg));
       }
       .hero-inner {
-        max-width: 780px;
+        max-width: 932px;
         width: 100%;
         position: relative;
       }
       .hero .eyebrow {
-        font-family: var(--mono);
-        font-size: 12.5px;
+        font-size: 12px;
+        font-weight: 600;
         color: var(--muted);
         margin: 0 0 16px;
         letter-spacing: 0.02em;
@@ -265,13 +246,13 @@
         align-items: center;
         gap: 9px;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: flex-start;
       }
       .hero .eyebrow .live {
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: var(--accent);
+        background: var(--ink);
         position: relative;
       }
       .hero .eyebrow .live::after {
@@ -279,7 +260,7 @@
         position: absolute;
         inset: 0;
         border-radius: 50%;
-        background: var(--accent);
+        background: var(--ink);
         animation: ring 2s ease-out infinite;
       }
       @keyframes ring {
@@ -298,26 +279,24 @@
         }
       }
       .hero h1 {
-        font-family: var(--disp);
-        font-size: clamp(40px, 6vw, 58px);
+        font-size: clamp(42px, 6vw, 62px);
         line-height: 1.04;
         font-weight: 700;
         letter-spacing: -0.02em;
-        margin: 0 0 8px;
+        margin: 0 0 5px;
       }
       .hero .role {
-        font-family: var(--disp);
-        font-size: 20px;
-        font-weight: 600;
-        color: var(--accent-deep);
-        margin: 0 0 22px;
+        font-size: 19px;
+        font-weight: 500;
+        color: var(--muted);
+        margin: 0 0 18px;
       }
       .hero .pitch {
         font-size: calc(17px + var(--level) * 3px);
-        line-height: 1.5;
-        color: #2b3a38;
-        max-width: 660px;
-        margin: 0 auto 24px;
+        line-height: 1.45;
+        color: var(--ink);
+        max-width: 720px;
+        margin: 0 0 24px;
         transition:
           color 0.4s,
           font-size 0.4s;
@@ -327,7 +306,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-        justify-content: center;
+        justify-content: flex-start;
         position: relative;
         z-index: 10;
       }
@@ -335,66 +314,66 @@
       .btn {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 7px;
         font-family: var(--body);
         font-size: 14px;
         font-weight: 600;
         text-decoration: none;
-        padding: 12px 20px;
-        border-radius: 8px;
+        padding: 10px 16px;
+        border-radius: 4px;
         border: 1px solid transparent;
         transition:
           background 0.15s,
-          transform 0.15s,
           border-color 0.15s;
       }
       .btn:hover {
-        transform: translateY(-1px);
+        text-decoration: none;
       }
       .btn-primary {
-        background: var(--accent);
+        background: var(--ink);
         color: #fff;
       }
       .btn-primary:hover {
-        background: var(--accent-deep);
+        background: #3c4043;
       }
       .btn-ghost {
         background: #fff;
-        color: var(--accent-deep);
+        color: var(--ink);
         border-color: var(--rule);
       }
       .btn-ghost:hover {
-        border-color: var(--accent);
+        border-color: var(--ink);
       }
 
       /* proof stats */
       .proof {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px 22px;
-        justify-content: center;
-        margin-top: 30px;
+        gap: 8px 0;
+        justify-content: flex-start;
+        margin-top: 26px;
         position: relative;
         z-index: 10;
       }
       .proof .p {
-        font-family: var(--mono);
-        font-size: 12.5px;
+        font-size: 12px;
         color: var(--muted);
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 5px;
+        padding: 0 14px;
+        border-left: 1px solid var(--rule);
+      }
+      .proof .p:first-child {
+        padding-left: 0;
+        border-left: 0;
       }
       .proof .p b {
-        color: var(--accent-deep);
-        font-weight: 600;
+        color: var(--ink);
+        font-weight: 700;
       }
       .proof .p::before {
-        content: "";
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: var(--accent);
+        content: none;
       }
 
       /* ---- severity slider (signature) ---- */
@@ -403,17 +382,16 @@
         left: 0;
         right: 0;
         bottom: 26px;
-        padding: 0 28px;
+        padding: 0 max(24px, calc((100vw - 932px) / 2));
         z-index: 20;
       }
       .tone-read {
-        font-family: var(--mono);
         font-size: 12px;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.035em;
         color: var(--muted);
         margin-bottom: 9px;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 9px;
         align-items: center;
       }
@@ -432,7 +410,7 @@
       }
       .tone-bar input[type="range"] {
         width: 100%;
-        accent-color: var(--accent);
+        accent-color: var(--ink);
         cursor: pointer;
         margin: 0;
       }
@@ -441,7 +419,7 @@
         justify-content: space-between;
         margin-top: 8px;
         font-size: 12.5px;
-        font-family: var(--mono);
+        color: var(--muted);
       }
       .tone-labels span {
         font-style: italic;
@@ -461,10 +439,19 @@
         background:
           radial-gradient(
             90% 125% at 50% -12%,
-            rgba(217, 138, 31, 0.16),
+            rgba(154, 93, 8, 0.14),
             transparent 62%
           ),
-          linear-gradient(180deg, #fffaf1, var(--bg));
+          linear-gradient(180deg, #faf6ef, var(--bg));
+      }
+      .hero[data-sev="3"] {
+        background:
+          radial-gradient(
+            90% 125% at 50% -12%,
+            rgba(179, 38, 30, 0.12),
+            transparent 62%
+          ),
+          linear-gradient(180deg, #faf3f2, var(--bg));
       }
       .hero[data-sev="2"] .tone-read .sev {
         color: var(--amber);
@@ -595,17 +582,16 @@
         width: clamp(200px, 17vw, 238px);
         background: #fff;
         border: 1px solid var(--rule);
-        border-left: 4px solid var(--amber);
-        border-radius: 10px;
+        border-left: 3px solid var(--amber);
+        border-radius: 4px;
         padding: 12px 14px;
-        box-shadow: 0 10px 30px rgba(20, 32, 30, 0.14);
+        box-shadow: none;
         text-align: left;
       }
       .alert-card.hot {
         border-left-color: var(--hot);
       }
       .alert-card .top {
-        font-family: var(--mono);
         font-size: 10.5px;
         letter-spacing: 0.06em;
         color: var(--muted);
@@ -617,9 +603,8 @@
         color: var(--hot);
       }
       .alert-card .title {
-        font-family: var(--mono);
         font-size: 12.5px;
-        font-weight: 600;
+        font-weight: 700;
         color: var(--ink);
       }
       .alert-card .spark {
@@ -637,13 +622,12 @@
         place-items: center;
         text-align: center;
         padding: 20px;
-        font-family: var(--disp);
         text-transform: uppercase;
         font-weight: 700;
         font-size: clamp(10px, 1vw, 12px);
         line-height: 1.12;
         color: #fff;
-        background: var(--accent);
+        background: var(--ink);
         clip-path: polygon(
           50% 0,
           61% 12%,
@@ -696,12 +680,11 @@
         position: relative;
         background: var(--ink);
         color: #fff;
-        font-family: var(--disp);
         font-weight: 600;
         font-size: clamp(14px, 1.5vw, 18px);
         padding: 12px 18px;
-        border-radius: 20px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+        border-radius: 4px;
+        box-shadow: none;
         white-space: nowrap;
       }
       .bubble::after {
@@ -744,18 +727,16 @@
           background: var(--hot);
         }
         50% {
-          background: #c53a26;
+          background: #9a1f18;
         }
       }
       .finale .tagsev {
-        font-family: var(--mono);
         font-size: clamp(12px, 2vw, 15px);
         letter-spacing: 0.22em;
         color: #fff;
         opacity: 0.9;
       }
       .finale .msg {
-        font-family: var(--disp);
         font-weight: 700;
         color: #fff;
         line-height: 0.94;
@@ -773,17 +754,15 @@
         }
       }
       .finale .contact {
-        font-family: var(--mono);
         font-size: clamp(15px, 3vw, 26px);
         font-weight: 600;
       }
       .finale .contact a {
-        color: #14201f;
+        color: var(--ink);
         text-decoration: none;
       }
       .finale .ack {
         margin-top: 6px;
-        font-family: var(--mono);
         font-size: 12px;
         letter-spacing: 0.14em;
         text-transform: uppercase;
@@ -804,109 +783,104 @@
         }
       }
 
-      /* ---- experience ---- */
+      /* ---- experience (CV-style title / date row) ---- */
       .exp-item {
-        display: grid;
-        grid-template-columns: 210px 1fr;
-        gap: 24px;
-        padding: 24px 0;
+        padding: 18px 0;
         border-top: 1px solid var(--rule);
       }
       .exp-item:first-of-type {
         border-top: 0;
+        padding-top: 0;
       }
-      .exp-when {
-        font-family: var(--mono);
-        color: var(--accent);
-        font-size: 13px;
-        font-weight: 500;
-      }
-      .exp-where {
-        font-family: var(--mono);
-        color: var(--muted);
-        font-size: 12px;
-        margin-top: 6px;
-      }
-      .exp-role {
-        font-family: var(--disp);
-        font-weight: 600;
-        font-size: 18px;
+      .exp-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 16px;
         margin: 0 0 2px;
       }
+      .exp-when {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 400;
+        white-space: nowrap;
+      }
+      .exp-role {
+        font-weight: 700;
+        font-size: 17px;
+        margin: 0;
+        line-height: 1.25;
+      }
       .exp-co {
-        color: var(--accent-deep);
+        color: var(--muted);
         font-weight: 600;
+        font-style: italic;
         margin: 0 0 10px;
+        font-size: 14px;
       }
       .exp-item ul {
         margin: 0;
-        padding: 0;
-        list-style: none;
+        padding: 0 0 0 16px;
         display: flex;
         flex-direction: column;
-        gap: 9px;
+        gap: 6px;
       }
       .exp-item li {
-        color: #36444c;
-        padding-left: 18px;
-        position: relative;
-      }
-      .exp-item li::before {
-        content: "›";
-        position: absolute;
-        left: 0;
-        color: var(--accent);
-        font-weight: 700;
+        color: var(--ink);
       }
       .exp-item li b {
         color: var(--ink);
         font-weight: 600;
       }
-      .exp-more{ text-align:center; margin-top:36px; padding-top:28px; border-top:1px solid var(--rule); }
-      .exp-more p{ color:var(--muted); font-size:15px; margin:0 0 16px; }
+      .exp-more {
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px solid var(--rule);
+      }
+      .exp-more p {
+        color: var(--muted);
+        font-size: 14px;
+        margin: 0 0 14px;
+      }
 
       /* ---- highlight cards ---- */
       .cards {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 18px;
+        gap: 14px;
       }
       .card {
         background: #fff;
         border: 1px solid var(--rule);
-        border-radius: 12px;
-        padding: 22px 22px 20px;
+        border-radius: 4px;
+        padding: 20px;
         transition:
           border-color 0.15s,
-          box-shadow 0.15s,
-          transform 0.15s;
+          background 0.15s;
       }
       .card:hover {
-        border-color: var(--accent);
-        box-shadow: 0 8px 26px rgba(20, 40, 50, 0.08);
-        transform: translateY(-2px);
+        border-color: var(--ink);
+        background: #fafafa;
       }
       .card .stat {
         display: inline-block;
-        font-family: var(--mono);
         font-size: 11px;
-        font-weight: 600;
-        color: var(--accent-deep);
-        background: var(--tint);
-        border-radius: 999px;
-        padding: 4px 11px;
-        margin-bottom: 12px;
-        letter-spacing: 0.02em;
+        font-weight: 700;
+        color: var(--muted);
+        background: transparent;
+        padding: 0;
+        margin-bottom: 8px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
       }
       .card h3 {
-        font-family: var(--disp);
         margin: 0 0 8px;
         font-size: 17px;
-        font-weight: 600;
+        font-weight: 700;
       }
       .card p {
         margin: 0;
-        color: #36444c;
+        color: var(--muted);
         font-size: 15px;
       }
       .card .stackrow {
@@ -916,11 +890,10 @@
         margin-top: 14px;
       }
       .card .stackrow span {
-        font-family: var(--mono);
         font-size: 11px;
         color: var(--muted);
         border: 1px solid var(--rule);
-        border-radius: 6px;
+        border-radius: 3px;
         padding: 3px 8px;
       }
 
@@ -928,19 +901,39 @@
       .skills-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px 40px;
+        gap: 18px 36px;
       }
       .skill-group h3 {
-        font-family: var(--mono);
         text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin: 0 0 8px;
+        letter-spacing: 0.035em;
+        margin: 0 0 7px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid var(--rule);
         font-size: 12px;
-        color: var(--accent-deep);
+        color: var(--ink);
       }
       .skill-group p {
         margin: 0;
-        color: #36444c;
+        color: var(--muted);
+      }
+
+      .section-copy {
+        max-width: 70ch;
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+      }
+
+      .contact-copy {
+        max-width: 60ch;
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 16px;
+      }
+
+      .source-link {
+        font-weight: 700;
+        text-decoration: none;
       }
 
       /* ---- contact ---- */
@@ -948,16 +941,17 @@
         display: flex;
         flex-wrap: wrap;
         gap: 14px 28px;
-        font-family: var(--mono);
-        font-size: 15px;
+        font-size: 14px;
       }
-      .contact-links a,
-      .contact-links span {
-        color: var(--ink);
+      .contact-links a {
+        color: var(--accent);
         text-decoration: none;
       }
       .contact-links a:hover {
         color: var(--accent-deep);
+      }
+      .contact-links span {
+        color: var(--muted);
       }
 
       /* ---- footer ---- */
@@ -965,16 +959,16 @@
         border-top: 1px solid var(--rule);
         padding: 26px 0;
         color: var(--muted);
-        font-family: var(--mono);
-        font-size: 12.5px;
+        font-size: 12px;
       }
 
       a:focus-visible,
       .btn:focus-visible,
+      .nav-toggle:focus-visible,
       input:focus-visible {
         outline: 2px solid var(--accent);
         outline-offset: 3px;
-        border-radius: 6px;
+        border-radius: 4px;
       }
 
       @media (max-width: 720px) {
@@ -1007,16 +1001,32 @@
           padding: 12px 0;
         }
         .nav-link.cta {
+          color: var(--ink);
+          background: transparent;
           border: 0;
           padding: 12px 0;
         }
-        .exp-item {
-          grid-template-columns: 1fr;
-          gap: 8px;
+        .exp-head {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 2px;
         }
         .cards,
         .skills-grid {
           grid-template-columns: 1fr;
+        }
+        .hero {
+          min-height: 760px;
+          padding-left: 24px;
+          padding-right: 24px;
+        }
+        .proof .p {
+          width: 100%;
+          padding-left: 0;
+          border-left: 0;
+        }
+        .tone-bar {
+          padding: 0 24px;
         }
       }
     </style>
@@ -1029,10 +1039,15 @@
             / platform·sre</span
           ></a
         >
-        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <button
+          class="nav-toggle"
+          aria-label="Menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+        >
           <span></span><span></span><span></span>
         </button>
-        <ul class="nav-links">
+        <ul class="nav-links" id="nav-menu">
           <li><a class="nav-link" href="#about">About</a></li>
           <li><a class="nav-link" href="#experience">Experience</a></li>
           <li><a class="nav-link" href="#work">Work</a></li>
@@ -1143,7 +1158,7 @@
         <div class="container">
           <p class="kicker">About</p>
           <h2>Platforms as code, reliability as a habit</h2>
-          <p style="max-width: 70ch; color: #36444c; font-size: 17px">
+          <p class="section-copy">
             Platform engineer with 6+ years across DevOps and platform work, now
             leading observability and reliability at Safeguard Global for 30+
             internal teams on a multi-account AWS organisation that runs payroll
@@ -1164,67 +1179,61 @@
           <h2>Where I've worked</h2>
 
           <div class="exp-item">
-            <div>
-              <div class="exp-when">Oct 2022 — Present</div>
-              <div class="exp-where">Remote, India</div>
-            </div>
-            <div>
+            <div class="exp-head">
               <div class="exp-role">
                 Platform Engineer → Senior Platform Engineer
               </div>
-              <div class="exp-co">Safeguard Global</div>
-              <ul>
-                <li>
-                  Lead platform engineering for a
-                  <b>multi-account AWS organization (20+ accounts)</b> running
-                  globally distributed payroll and workforce systems under
-                  strict data-residency and compliance requirements.
-                </li>
-                <li>
-                  Delivered Safeguard's
-                  <b>first compliance-as-code program</b> — SOC2 / CIS hardening
-                  as Terraform and IAM policy, enforced via SCPs and permission
-                  boundaries; reached SOC2 review with
-                  <b>no exceptions in scope</b>.
-                </li>
-                <li>
-                  Built a centralized, versioned
-                  <b>Terraform module ecosystem</b> and a Bitbucket Dynamic
-                  Pipelines governance system, cutting release time
-                  <b>~75%</b> and scanning across <b>30+ teams</b>.
-                </li>
-                <li>
-                  Migrated <b>300+ users</b> to AWS Identity Center; built
-                  Datadog → OpsGenie incident routing (MTTD <b>~45%</b>) and a
-                  FinOps platform surfacing <b>$150K+</b> annual savings.
-                </li>
-              </ul>
+              <div class="exp-when">Oct 2022 — Present</div>
             </div>
+            <div class="exp-co">Safeguard Global · Remote, India</div>
+            <ul>
+              <li>
+                Lead platform engineering for a
+                <b>multi-account AWS organization (20+ accounts)</b> running
+                globally distributed payroll and workforce systems under
+                strict data-residency and compliance requirements.
+              </li>
+              <li>
+                Delivered Safeguard's
+                <b>first compliance-as-code program</b> — SOC2 / CIS hardening
+                as Terraform and IAM policy, enforced via SCPs and permission
+                boundaries; reached SOC2 review with
+                <b>no exceptions in scope</b>.
+              </li>
+              <li>
+                Built a centralized, versioned
+                <b>Terraform module ecosystem</b> and a Bitbucket Dynamic
+                Pipelines governance system, cutting release time
+                <b>~75%</b> and scanning across <b>30+ teams</b>.
+              </li>
+              <li>
+                Migrated <b>300+ users</b> to AWS Identity Center; built
+                Datadog → OpsGenie incident routing (MTTD <b>~45%</b>) and a
+                FinOps platform surfacing <b>$150K+</b> annual savings.
+              </li>
+            </ul>
           </div>
 
           <div class="exp-item">
-            <div>
-              <div class="exp-when">Jun 2020 — Aug 2022</div>
-              <div class="exp-where">Pune → Remote, India</div>
-            </div>
-            <div>
+            <div class="exp-head">
               <div class="exp-role">DevOps → Senior DevOps Engineer</div>
-              <div class="exp-co">Solytics Partners</div>
-              <ul>
-                <li>
-                  Promoted to lead
-                  <b>container-orchestration on ECS Fargate</b> running 50+
-                  microservices with horizontal autoscaling and cross-AZ fault
-                  tolerance.
-                </li>
-                <li>
-                  Provisioned <b>Terraform-managed AWS environments</b> for 20+
-                  services and immutable deployment pipelines —
-                  <b>95% deployment success</b>, release-cycle time cut
-                  <b>~75%</b>, infrastructure cost down <b>~30%</b>.
-                </li>
-              </ul>
+              <div class="exp-when">Jun 2020 — Aug 2022</div>
             </div>
+            <div class="exp-co">Solytics Partners · Pune → Remote, India</div>
+            <ul>
+              <li>
+                Promoted to lead
+                <b>container-orchestration on ECS Fargate</b> running 50+
+                microservices with horizontal autoscaling and cross-AZ fault
+                tolerance.
+              </li>
+              <li>
+                Provisioned <b>Terraform-managed AWS environments</b> for 20+
+                services and immutable deployment pipelines —
+                <b>95% deployment success</b>, release-cycle time cut
+                <b>~75%</b>, infrastructure cost down <b>~30%</b>.
+              </li>
+            </ul>
           </div>
           <div class="exp-more">
             <p>Highlights only — full career history, every metric, and earlier roles are on the CV.</p>
@@ -1315,14 +1324,10 @@
                 deployed by GitHub Actions via OIDC with no long-lived AWS keys.
                 Practising what the day job preaches.
                 <a
+                  class="source-link"
                   href="https://github.com/Prateek-Tyagi/prateek-portfolio"
                   target="_blank"
                   rel="noopener"
-                  style="
-                    color: var(--accent-deep);
-                    font-weight: 600;
-                    text-decoration: none;
-                  "
                   >Source on GitHub →</a
                 >
               </p>
@@ -1385,14 +1390,7 @@
         <div class="container">
           <p class="kicker">Contact</p>
           <h2>Get in touch</h2>
-          <p
-            style="
-              max-width: 60ch;
-              color: #36444c;
-              font-size: 17px;
-              margin-bottom: 22px;
-            "
-          >
+          <p class="contact-copy">
             Open to senior SRE, platform, and observability roles — UK/Europe
             relocation with sponsorship, or remote. Happy to walk through any of
             the work above.
@@ -1438,8 +1436,18 @@
       document
         .querySelectorAll(".nav-link")
         .forEach((a) =>
-          a.addEventListener("click", () => nav.classList.remove("nav-open")),
+          a.addEventListener("click", () => {
+            nav.classList.remove("nav-open");
+            toggle.setAttribute("aria-expanded", "false");
+          }),
         );
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && nav.classList.contains("nav-open")) {
+          nav.classList.remove("nav-open");
+          toggle.setAttribute("aria-expanded", "false");
+          toggle.focus();
+        }
+      });
 
       // ---- severity slider ----
       const hero = document.querySelector(".hero"),
