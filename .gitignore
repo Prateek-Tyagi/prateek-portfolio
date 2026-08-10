@@ -17,6 +17,14 @@ backend.hcl
 # Generated CV (built from cv.md via build-cv.sh — do not hand-edit)
 cv.html
 cv.pdf
+Prateek-Rajvats-CV.pdf
+Prateek_Rajvats_CV.pdf
+
+# Job-tailored CV variants (local only — never push / never deploy)
+/applications/
+
+# Local Cursor project skills / state
+.cursor/
 
 # OS / editor
 .DS_Store
