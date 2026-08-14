@@ -1,7 +1,7 @@
 ---
 name: Prateek Rajvats
-role: Platform & Reliability Engineer
-tagline: Senior Platform Engineer · Cloud Infrastructure & SRE
+role: Senior Platform Engineer
+tagline: Cloud Platforms · Infrastructure as Code · Security · Reliability
 location: Gurugram, India
 phone: "+91 99979 94367"
 email: parteekrajvats@gmail.com
@@ -12,25 +12,44 @@ github: github.com/Prateek-Tyagi
 
 ## Summary
 
-Platform engineer with 6+ years building and operating secure, multi-account AWS
-infrastructure for globally distributed production systems. I turn manual, error-prone
-operations into self-service platforms — governance enforced as code, reliability measured
-against SLOs, and guardrails that let product teams ship safely without waiting on Platform.
-Comfortable across the full surface area: IaC, CI/CD, observability, container security, and FinOps.
+Senior Platform Engineer with 6+ years building and operating secure AWS platforms
+for globally distributed production systems. Experienced in multi-account AWS
+architecture, Infrastructure as Code, CI/CD governance, cloud security, observability,
+identity and access management, cloud networking, and container platforms.
+
+I turn manual infrastructure and security work into reusable, self-service platform
+capabilities: versioned Terraform modules, centrally governed CI/CD controls,
+secure-by-default AWS guardrails, standardized identity patterns, and production
+observability. Strongest production experience is AWS, Terraform, ECS/Fargate,
+Bitbucket Pipelines, Datadog, and cloud/security governance.
 
 ## Technical Skills
 
-**Cloud & Governance** — AWS (Organizations, Control Tower, SCPs, IAM Identity Center, Lake Formation, VPC, Transit Gateway, EC2, ECS, Lambda, Step Functions, EventBridge, RDS, S3, Athena, Glue)
+**AWS & Cloud Platform** — Organizations, Control Tower, SCPs, IAM, IAM Identity Center, EC2, ECS, Fargate, Lambda, EventBridge, SQS/DLQ, Step Functions, RDS, Aurora PostgreSQL, DynamoDB, S3, AWS Backup, KMS, WAF, Route 53
 
-**IaC & Automation** — Terraform (module registries, remote state), CloudFormation, AWS CDK, Ansible, Python (boto3), Bash
+**Infrastructure as Code & Automation** — Terraform (reusable/versioned modules, registries, remote state), CloudFormation, AWS CDK, Ansible, Python, boto3, Bash, YAML
 
-**CI/CD** — Bitbucket Pipelines, AWS CodePipeline, GitHub Actions, OIDC-based auth
+**Platform Architecture & Governance** — Multi-account AWS, account/environment separation, self-service infrastructure, secure-by-default patterns, reusable primitives, centralized governance, developer guardrails, event-driven architecture, cross-account services
 
-**Containers & Security** — Docker, ECS Fargate (primary), Kubernetes/EKS (working knowledge; CKA in progress), JFrog Artifactory & Xray, ECR scanning
+**Cloud Networking** — VPC architecture, public/private subnets, route tables, Transit Gateway, TGW peering, VPC peering, Site-to-Site VPN, AWS Client VPN, FortiGate VPN, private connectivity, NLB, Route 53/DNS, security groups, cross-account and multi-region routing, TLS/certificates, NGINX/reverse proxy
 
-**SRE & Observability** — SLO/SLI design, error budgets, Datadog (RUM, synthetics, monitors, logging), CloudWatch, incident management, OpsGenie on-call
+**Identity & Access** — IAM, IAM Identity Center/SSO, permission sets, SCPs, permission boundaries, cross-account roles, temporary credentials, OIDC, SAML, least privilege, service identities
 
-**Compliance & FinOps** — SOC2 Type II, CIS Benchmarks, GDPR, KMS, compliance-as-code, cost attribution & tagging, rightsizing, RI planning
+**CI/CD & Release Engineering** — Bitbucket Pipelines, Bitbucket Dynamic Pipelines, AWS CodePipeline, CodeBuild, GitHub Actions, GitLab CI, OIDC-based CI auth, reusable pipeline components, policy and quality gates, GitOps concepts, ArgoCD
+
+**DevSecOps & Supply Chain** — SonarQube, JFrog Artifactory, JFrog Xray, SBOM generation, Checkov, Gitleaks, SAST, IaC scanning, dependency and artifact scanning, container-image scanning, vulnerability policy gates, controlled package resolution
+
+**Containers** — Docker, Amazon ECS, ECS Fargate, ECR, Kubernetes/EKS (working knowledge; CKA in progress), container security, autoscaling
+
+**SRE & Observability** — Datadog (metrics, logs, dashboards, monitors, synthetics, RUM), CloudWatch, Grafana dashboards, SLO/SLI design, error-budget concepts, SQS/DLQ monitoring, incident management, OpsGenie/on-call, Prometheus and Grafana exposure
+
+**Data Platform Infrastructure** — Athena, Glue/Data Catalog, Lake Formation, S3-based data platforms, QuickSight, AWS DMS, Postgres, platform integration with dbt and Fivetran, SQL Server connectivity (infrastructure, access, and governance — not data engineering)
+
+**Security & Compliance** — SOC 2 controls, CIS-aligned cloud controls, GDPR considerations, encryption at rest, KMS, least privilege, audit logging, AWS WAF, security policy enforcement, compliance-as-code
+
+**FinOps** — AWS cost analysis and optimization, rightsizing, tagging and cost attribution, idle-resource identification, commitment/reservation planning
+
+**Programming & Scripting** — Python, boto3, Bash, YAML, SQL
 
 ## Experience
 
@@ -38,14 +57,19 @@ Comfortable across the full surface area: IaC, CI/CD, observability, container s
 
 **Safeguard Global** · Remote, India
 
-- Lead platform engineering for a multi-account AWS organization (20+ accounts) running globally distributed payroll and workforce systems under strict data-residency and compliance requirements.
-- Building a Bitbucket Dynamic Pipelines governance system (Forge app) that injects SonarQube and security controls into repositories at runtime — enforcing governance with zero per-repo configuration.
-- Built a centralized, versioned Terraform module ecosystem with CI-integrated policy validation, cutting release time ~75% by letting teams provision compliant infrastructure deterministically across dev/stage/prod.
-- Centralized code-quality and artifact-security scanning across 30+ teams (SonarQube, SBOM generation, JFrog Xray/Artifactory) as a self-service platform, reducing manual vulnerability-triage effort ~60%.
-- Codified SOC2 and CIS hardening as executable Terraform and IAM policy, enforcing org-wide guardrails via SCPs, permission boundaries, and mandatory encryption — replacing manual audit checklists with continuous enforcement.
-- Drove a ~30% AWS cost reduction through rightsizing, commitment planning, and idle-resource elimination, surfaced via cross-account cost attribution.
-- Migrated 300+ users from per-account IAM to AWS Identity Center with custom permission sets that standardized access control across the organization.
-- Instrumented SLOs/SLIs with error-budget policies, helping sustain ~99.7% availability across critical services.
+- Lead and contribute to platform engineering across a multi-account AWS environment supporting globally distributed payroll and workforce applications, with requirements around security, compliance, availability, and data residency.
+- Design and maintain reusable, versioned Terraform modules that standardize provisioning across AWS environments — networking, compute, databases, storage, security controls, backup, and container services.
+- Build centralized CI/CD governance using Bitbucket Dynamic Pipelines and Forge, so platform-owned controls are injected into application pipelines without every repository independently implementing the same governance.
+- Integrate security and quality controls into delivery workflows using SonarQube, JFrog Artifactory/Xray, SBOM generation, IaC scanning, secrets scanning, and vulnerability-policy enforcement.
+- Design secure-by-default AWS guardrails using Organizations, SCPs, IAM policies, permission boundaries, encryption requirements, and reusable Terraform controls.
+- Operate and evolve IAM Identity Center for centralized workforce access — permission sets, temporary credentials, and standardized cross-account access.
+- Work on AWS networking across accounts and regions: VPCs, Transit Gateway, TGW peering, VPN connectivity, routing, security groups, private endpoints, load balancing, and DNS.
+- Support integrations between AWS-hosted systems and external SaaS/data platforms, including private connectivity for Fivetran and dbt.
+- Build and maintain observability with Datadog and CloudWatch — service metrics, logging, monitors, SLO/SLI instrumentation, event-driven workload monitoring, and operational alerting.
+- Implement monitoring for event-driven services around EventBridge, SQS, Lambda, and DLQs so failed or delayed processing can be detected and investigated.
+- Contribute to AWS cost optimization through rightsizing, resource cleanup, cost attribution, tagging standards, and commitment-planning analysis.
+- Support AWS data-platform infrastructure involving S3, Athena, Glue, Lake Formation, QuickSight, and access/governance patterns for analytics consumers.
+- Troubleshoot production platform issues across networking, IAM, WAF, CI/CD, containers, DNS, TLS, databases, and third-party integrations.
 
 <div class="page-break"></div>
 
@@ -53,26 +77,37 @@ Comfortable across the full surface area: IaC, CI/CD, observability, container s
 
 **Safeguard Global** · Remote, India
 
-- Delivered Safeguard's first compliance-as-code program across 20+ AWS accounts — enforcing encryption-at-rest, IAM least-privilege, and audit logging via Terraform and Python, reaching SOC2 review with no exceptions in scope.
-- Onboarded 15+ engineering teams onto SonarQube, JFrog Artifactory, and Xray as centrally governed platform services.
-- Centralized SonarQube static analysis using versioned, Docker-based Bitbucket Pipes (reusable like Terraform modules), standardizing code-quality gates across 30+ teams.
-- Built a container-security pipeline integrating JFrog Xray with policy gates that block vulnerable images from production, cutting remediation time ~60%.
-- Built an end-to-end incident system (Datadog → OpsGenie) with custom routing, escalation, and on-call rotations, reducing MTTD ~45%.
-- Stood up a FinOps cost-visibility platform with automated tagging taxonomy and cross-account aggregation, surfacing $150K+ in annual savings via RI planning and rightsizing.
+- Built and maintained Terraform-based AWS infrastructure and reusable platform components across a multi-account AWS organization.
+- Developed compliance-as-code controls — encryption, IAM least privilege, audit logging, and security configuration standards — using Terraform, AWS policy controls, and automation.
+- Standardized SonarQube as a centrally managed code-quality capability, with reusable Docker-based Bitbucket Pipes for consistent quality-gate enforcement across repositories.
+- Integrated JFrog Artifactory and Xray into delivery workflows for artifact management, dependency scanning, vulnerability detection, and policy enforcement.
+- Implemented SBOM and vulnerability-scanning workflows, and moved package consumption toward centrally governed artifact repositories instead of uncontrolled public resolution.
+- Built container-security workflows that scan artifacts and images and apply vulnerability policies before production deployment.
+- Integrated IaC and source-code security tooling, including Checkov and secrets scanning, into CI/CD workflows.
+- Built and operated Datadog monitoring and alerting for AWS and application workloads, including event-driven services, queues, Lambda, and operational failure scenarios.
+- Integrated Datadog alerting with OpsGenie/on-call processes to improve routing and escalation of production incidents.
+- Worked on AWS account governance, IAM access patterns, networking, container platforms, and operational automation as part of central Platform Engineering.
+- Contributed to AWS cost visibility and optimization through tagging, cost attribution, rightsizing analysis, idle-resource identification, and reservation/commitment planning.
+- Built secure connectivity: FortiGate VPN (greenfield; internal applications and a local domain controller behind it), AWS Client VPN endpoints, and Fivetran connections into private resources through FortiGate.
 
 ### DevOps Engineer → Senior DevOps Engineer [Jun 2020 – Aug 2022]{.when}
 
 **Solytics Partners** · Pune → Remote, India
 
-- Promoted to lead container-orchestration design on ECS Fargate running 50+ microservices with horizontal autoscaling and cross-AZ fault tolerance.
-- Provisioned Terraform-managed AWS environments for 20+ services with VPC isolation, security-group hardening, and least-privilege IAM roles.
-- Implemented immutable deployment pipelines with artifact versioning and a 95% deployment success rate via automated integration testing, canary releases, and rollback — compressing release-cycle time ~75%.
-- Drove ~30% infrastructure cost reduction via compute rightsizing, reserved-instance procurement, and architectural optimization.
+- Built and operated AWS infrastructure supporting containerized applications and microservices.
+- Designed and operated container workloads on Amazon ECS and ECS Fargate — service deployment, autoscaling, networking, load balancing, and multi-AZ availability.
+- Provisioned and maintained AWS environments with Terraform, including VPC networking, compute, container services, IAM, security groups, storage, and supporting infrastructure.
+- Built CI/CD automation for application and infrastructure delivery — artifact versioning, automated testing, deployment automation, and rollback workflows.
+- Implemented IAM and network-security controls using least-privilege roles, VPC isolation, security groups, and controlled application connectivity.
+- Worked on infrastructure cost optimization through compute rightsizing, capacity planning, reservation/commitment analysis, and architecture improvements.
+- Used Python and Bash automation to reduce repetitive infrastructure and operational tasks.
+- Supported production troubleshooting across AWS infrastructure, containers, networking, CI/CD, and application deployments.
 
 ## Selected Projects
 
-- **SarkariPing** (active side project) — A government-job alerts PWA for Indian students who miss deadlines buried across fragmented government portals. Matches students to eligible roles, uses an LLM syllabus parser to identify cross-exam overlap, assesses prep level, and generates a study plan delivered through a built-in lightweight LMS.
-- **Earlier engineering** — File malware-scanning service; FortiGate VPN deployment on AWS.
+- **SarkariPing** (active side project) — Government-job discovery and preparation for Indian students: aggregate fragmented job information, match eligibility, analyze syllabus overlap, and provide structured preparation through a lightweight learning experience.
+- **File malware-scanning service** — Automated inspection of uploaded files for malicious content as part of a secure application workflow.
+- **FortiGate VPN on AWS** — Deployed and configured FortiGate-based VPN connectivity for secure network access, including internal applications and directory access.
 
 ## Education & Certifications
 
@@ -80,11 +115,8 @@ Comfortable across the full surface area: IaC, CI/CD, observability, container s
 
 AWS Certified Solutions Architect – Associate · CKA (Certified Kubernetes Administrator) — in progress
 
-## Key Achievements
+## Professional Strengths
 
-- Sustained ~99.7% availability via SLO instrumentation, error budgets, and proactive capacity planning.
-- Achieved zero audit exceptions enforcing SOC2 / CIS across 20+ AWS accounts through automated controls.
-- Surfaced $150K+ in annual cost savings through FinOps practices and automated cost attribution.
-- Reduced security-remediation cycles ~60% and MTTD ~45% through automated scanning and incident tooling.
+AWS multi-account platform engineering · Terraform and reusable IaC · Platform security and governance · CI/CD governance and developer guardrails · Software-supply-chain security · AWS identity and access · Cloud networking and private connectivity · ECS/Fargate · Datadog observability and production operations · Event-driven AWS architecture · Compliance-as-code · FinOps · Developer self-service
 
 **Languages:** English (fluent), Hindi (native) · 6+ years in remote-first distributed teams
