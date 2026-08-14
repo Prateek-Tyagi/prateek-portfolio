@@ -89,7 +89,7 @@
       }
 
       .sheet h2 {
-        margin: 9pt 0 3.5pt;
+        margin: 7.5pt 0 3pt;
         padding-bottom: 1.5pt;
         border-bottom: 0.7pt solid var(--rule);
         font-size: 9.2pt;
@@ -156,11 +156,13 @@
       }
 
       .sheet li {
-        margin: 0 0 1.4pt;
+        margin: 0 0 1.2pt;
         padding-left: 0.5pt;
         font-size: 8.75pt;
         orphans: 2;
         widows: 2;
+        break-inside: avoid;
+        page-break-inside: avoid;
       }
 
       .sheet li::marker {
@@ -244,15 +246,10 @@
           display: none !important;
         }
 
-        /* Let each tailored CV balance itself instead of forcing the old split. */
+        /* Do not force a page split. Let content flow so a two-page CV
+           does not leave a half-empty middle page. */
         .page-break {
           display: none;
-        }
-
-        /* Three-role CVs balance best with the final role starting page two. */
-        .sheet h3:nth-of-type(3) {
-          break-before: page;
-          page-break-before: always;
         }
 
         .sheet {

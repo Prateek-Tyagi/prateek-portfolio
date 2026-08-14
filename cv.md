@@ -66,8 +66,6 @@ Bitbucket Pipelines, Datadog, and cloud/security governance.
 - Evolve production observability from monitors into SLO/SLI instrumentation on Datadog and CloudWatch, including detection of failed or delayed EventBridge, SQS, Lambda, and DLQ processing.
 - Troubleshoot production platform issues across networking, IAM, WAF, CI/CD, containers, DNS, TLS, databases, and third-party integrations.
 
-<div class="page-break"></div>
-
 ### Platform Engineer [Oct 2022 – Apr 2025]{.when}
 
 **Safeguard Global** · Remote, India
