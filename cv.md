@@ -12,16 +12,14 @@ github: github.com/Prateek-Tyagi
 
 ## Summary
 
-Senior Platform Engineer with 6+ years building and operating secure AWS platforms
-for globally distributed production systems. Experienced in multi-account AWS
-architecture, Infrastructure as Code, CI/CD governance, cloud security, observability,
-identity and access management, cloud networking, and container platforms.
+Senior Platform Engineer with 6+ years building the AWS platform that other
+engineering teams ship on. I work on globally distributed payroll and workforce
+systems where security, compliance, and availability have to be defaults — not
+follow-up work after a release.
 
-I turn manual infrastructure and security work into reusable, self-service platform
-capabilities: versioned Terraform modules, centrally governed CI/CD controls,
-secure-by-default AWS guardrails, standardized identity patterns, and production
-observability. Strongest production experience is AWS, Terraform, ECS/Fargate,
-Bitbucket Pipelines, Datadog, and cloud/security governance.
+I treat Platform as a product: reusable infrastructure, governed delivery, and
+least-privilege access that teams can consume without opening a ticket for every
+change. The aim is a paved path that stays safe when the platform team is small.
 
 ## Technical Skills
 
@@ -29,17 +27,17 @@ Bitbucket Pipelines, Datadog, and cloud/security governance.
 
 **Infrastructure as Code & Automation** — Terraform (reusable/versioned modules, registries, remote state), CloudFormation, AWS CDK, Ansible, Python, boto3, Bash, YAML
 
-**Platform Architecture & Governance** — Multi-account AWS, account/environment separation, self-service infrastructure, secure-by-default patterns, reusable primitives, centralized governance, developer guardrails, event-driven architecture, cross-account services
+**Platform Architecture & Governance** — Platform-as-a-Product, Zero-Trust Architecture, multi-account AWS, account/environment separation, self-service infrastructure, secure-by-default patterns, reusable primitives, centralized governance, developer guardrails, event-driven architecture, cross-account services
 
 **Cloud Networking** — VPC architecture, public/private subnets, route tables, Transit Gateway, TGW peering, VPC peering, Site-to-Site VPN, AWS Client VPN, FortiGate VPN, private connectivity, NLB, Route 53/DNS, security groups, cross-account and multi-region routing, TLS/certificates, NGINX/reverse proxy
 
-**Identity & Access** — IAM, IAM Identity Center/SSO, permission sets, SCPs, permission boundaries, cross-account roles, temporary credentials, OIDC, SAML, least privilege, service identities
+**Identity & Access** — IAM, IAM Identity Center/SSO, permission sets, Entra ID SAML, SCPs, permission boundaries, cross-account roles, temporary credentials, OIDC, SAML, least privilege, service identities
 
-**CI/CD & Release Engineering** — Bitbucket Pipelines, Bitbucket Dynamic Pipelines, AWS CodePipeline, CodeBuild, GitHub Actions, GitLab CI, OIDC-based CI auth, reusable pipeline components, policy and quality gates, GitOps concepts, ArgoCD
+**CI/CD & Release Engineering** — Bitbucket Pipelines, Bitbucket Dynamic Pipelines, Dynamic Runtime Injections, AWS CodePipeline, CodeBuild, GitHub Actions, GitLab CI, OIDC, OIDC-based CI auth, reusable pipeline components, policy and quality gates, GitOps concepts, ArgoCD
 
-**DevSecOps & Supply Chain** — SonarQube, JFrog Artifactory, JFrog Xray, SBOM generation, Checkov, Gitleaks, SAST, IaC scanning, dependency and artifact scanning, container-image scanning, vulnerability policy gates, controlled package resolution
+**DevSecOps & Supply Chain** — SonarQube, JFrog Artifactory, JFrog Xray, SBOM Automation, Checkov, Gitleaks, SAST, IaC scanning, dependency and artifact scanning, container-image scanning, vulnerability policy gates, controlled package resolution
 
-**Containers** — Docker, Amazon ECS, ECS Fargate, ECR, Kubernetes/EKS (working knowledge; CKA in progress), container security, autoscaling
+**Containers** — Docker, Amazon ECS, ECS Fargate, ECR, Kubernetes/EKS (strong working knowledge; not used in production; CKA in progress), container security, autoscaling
 
 **SRE & Observability** — Datadog (metrics, logs, dashboards, monitors, synthetics, RUM), CloudWatch, Grafana dashboards, SLO/SLI design, error-budget concepts, SQS/DLQ monitoring, incident management, OpsGenie/on-call, Prometheus and Grafana exposure
 
@@ -57,14 +55,14 @@ Bitbucket Pipelines, Datadog, and cloud/security governance.
 
 **Safeguard Global** · Remote, India
 
-- Lead platform engineering across a multi-account AWS environment supporting globally distributed payroll and workforce applications, with requirements around security, compliance, availability, and data residency.
+- Kept 100% operational continuity for three months after two Principal Engineers left, while continuing to own multi-account AWS, IAM Identity Center, Dynamic Pipelines, networking, and production observability.
 - Own the versioned Terraform module platform that engineering teams consume to provision networking, compute, databases, storage, security controls, backup, and container services.
-- Build centralized CI/CD governance using Bitbucket Dynamic Pipelines and Forge, so Platform-owned controls are injected into application pipelines without every repository independently implementing the same governance.
-- Operate and evolve IAM Identity Center for centralized workforce access — permission sets, temporary credentials, and standardized cross-account access.
+- Engineered zero-touch CI/CD governance with Bitbucket Dynamic Pipelines and Forge — Dynamic Runtime Injections of compliance, SBOM Automation, and quality gates so developers did not migrate or rewrite pipeline configuration.
+- Rationalized fragmented AWS IAM into a strict least-privilege model using IAM Identity Center permission sets and permission boundaries (Zero-Trust Architecture: temporary credentials, no standing keys, just-enough access).
+- Implementing Entra ID SAML with IAM Identity Center so joiner and leaver access is automatic and no live credentials remain when someone leaves the business.
+- Supported the Zendesk → Salesforce + Amazon Connect omnichannel migration by providing just-enough IAM policies and Salesforce permission sets for Connect roles, including access for the implementation partner.
 - Centralize AWS networking across accounts and regions using VPCs, Transit Gateway, TGW peering, routing, private endpoints, load balancing, and DNS.
-- Support AWS data-platform infrastructure involving S3, Athena, Glue, Lake Formation, QuickSight, and access/governance patterns for analytics consumers.
-- Evolve production observability from monitors into SLO/SLI instrumentation on Datadog and CloudWatch, including detection of failed or delayed EventBridge, SQS, Lambda, and DLQ processing.
-- Troubleshoot production platform issues across networking, IAM, WAF, CI/CD, containers, DNS, TLS, databases, and third-party integrations.
+- Support AWS data-platform infrastructure (S3, Athena, Glue, Lake Formation, QuickSight) and evolve Datadog/CloudWatch observability into SLO/SLI instrumentation, including EventBridge, SQS, Lambda, and DLQ failure detection.
 
 ### Platform Engineer [Oct 2022 – Apr 2025]{.when}
 
@@ -97,7 +95,7 @@ Bitbucket Pipelines, Datadog, and cloud/security governance.
 
 ## Selected Projects
 
-- **SarkariPing** (active side project) — Government-job discovery and preparation for Indian students: aggregate fragmented job information, match eligibility, analyze syllabus overlap, and provide structured preparation through a lightweight learning experience.
+- **SarkariPing** (side project; paused) — Working live app for Indian students to track upcoming exams and generate LLM insights from previous-year papers and historical merit data. Built on Vercel and Supabase, with SNS/SQS for mail. Not production-scale; paused to focus on the day job.
 - **File malware-scanning service** — Automated inspection of uploaded files for malicious content as part of a secure application workflow.
 - **FortiGate VPN on AWS** — Deployed and configured FortiGate-based VPN connectivity for secure network access, including internal applications and directory access.
 
@@ -109,6 +107,6 @@ AWS Certified Solutions Architect – Associate · CKA (Certified Kubernetes Adm
 
 ## Professional Strengths
 
-AWS multi-account platform engineering · Terraform and reusable IaC · Platform security and governance · CI/CD governance and developer guardrails · Software-supply-chain security · AWS identity and access · Cloud networking and private connectivity · ECS/Fargate · Datadog observability and production operations · Event-driven AWS architecture · Compliance-as-code · FinOps · Developer self-service
+Platform-as-a-Product · Zero-Trust Architecture · AWS multi-account platform engineering · Terraform and reusable IaC · CI/CD governance and Dynamic Runtime Injections · SBOM Automation · IAM Identity Center and Entra ID SAML · Cloud networking and private connectivity · ECS/Fargate · Datadog observability · Compliance-as-code · FinOps
 
 **Languages:** English (fluent), Hindi (native) · 6+ years in remote-first distributed teams
